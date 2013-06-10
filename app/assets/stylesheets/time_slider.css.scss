@@ -1,0 +1,83 @@
+
+.time-slider{
+  position: relative;
+  width: 700px;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 3px;
+  background-color: rgba(32,32,64,0.4);
+  overflow: visible;
+  border: 1px solid rgb(32,32,128);
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0px;
+}
+
+.time-slider .slider-indicator{
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  background-color: rgba(32,128,32,0.4);
+  border: 1px solid rgb(16,64,16);
+}
+
+.time-slider .slider-handle{
+  position: absolute;
+  width: 11px;
+  margin-left: -5px;
+  background-color: black;
+  border: 1px solid black;
+  border-radius: 3px;
+  top: -6px;
+  bottom: -6px;
+  cursor: ew-resize;
+}
+
+.time-slider-labels {
+  margin-bottom: 20px;
+}
+
+.time-slider-labels .slider-labels > div {
+  font-weight: normal;
+  position: absolute;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.time-slider.small{
+  width: 300px;
+  height: 15px;
+  line-height: 15px;
+  font-size: 12px;
+  border-radius:2px;
+  margin: 8px 0px;
+}
+
+.time-slider.small .slider-indicator, .time-slider.tiny .slider-indicator{
+  top: -3px;
+  bottom: -3px;
+}
+
+.time-slider.small .slider-handle, .time-slider.tiny .slider-handle{
+  top: -4px;
+  bottom: -4px;
+  width: 5px;
+  margin-right: -2px;
+}
+
+.time-slider-labels.small .slider-labels > div {
+  font-size: 8px;
+}
+
+.time-slider.tiny{
+  width: 200px;
+  height: 12px;
+  line-height: 12px;
+  font-size: 10px;
+  border-radius:1px;
+  margin: 8px 0px;
+}
+
+.time-slider-labels.tiny .slider-labels > div {
+  font-size: 7px;
+}
