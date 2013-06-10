@@ -31,11 +31,19 @@ class Schedule < ActiveRecord::Base
   end
 
   def start
-    self.days[self.date_index.to_s]["start"]
+    self.days[self.date_index.to_s]["start"].blank? ? '8:00 AM' : self.days[self.date_index.to_s]["start"]
   end
 
   def end
-    self.days[self.date_index.to_s]["end"]
+    self.days[self.date_index.to_s]["end"].blank? ? '5:00 PM' : self.days[self.date_index.to_s]["end"]
+  end
+
+  def start_hour
+    Time.parse(self.start).seconds_since_midnight / 3600
+  end
+
+  def end_hour
+    Time.parse(self.end).seconds_since_midnight / 3600
   end
 
   def hours

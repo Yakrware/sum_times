@@ -27,9 +27,9 @@
 <% end %>
 
 <h4>People scheduled today</h4>
-<ul class="plain">
+<ul class="unstyled">
 <% @schedules.each do |schedule| %>
   <% schedule.date = Date.today %> <%# hate this, but what can ya do?%>
-  <li><strong><%= schedule.user.name %></strong> <%= "#{schedule.start} - #{schedule.end}" %></li>
+  <li><div class="time-slider" data-time-slider="<%= [{start: schedule.start_hour, end: schedule.end_hour}].to_json %>"><%= schedule.user.name %></div></li>
 <% end %>
 </ul>

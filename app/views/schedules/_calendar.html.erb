@@ -23,10 +23,14 @@
         <% unless date_info.nil? %>
           <% date_info[:schedules].each do |sched| %>
             <% leave = date_info[:leaves].find{|l| l.user.id == sched.user.id} %>
-            <%= raw("#{sched.user.name}: #{sched.start}-#{sched.end}<br/>") unless leave && leave.hours(date) >= sched.hours %>
+            <% unless leave && leave.hours(date) >= sched.hours %>
+              <div class="time-slider tiny" data-time-slider="<%= [{start: sched.start_hour, end: sched.end_hour}].to_json %>"><%= sched.user.name %></div>
+            <% end %>
           <% end if date_info[:holidays].blank? %>
           <% date_info[:leaves].each do |leave| %>
-            <%= raw("#{leave.user.name}: Out #{leave.hours(date)} hours<br/>") if leave.hours(date) > 0 %>
+            <% if leave.hours(date) > 0 %>
+              <div class="time-slider tiny" data-time-slider="<%= [{start: 8, end: 17-leave.hours(date), type: leave.category}].to_json %>"><%= leave.user.name %></div>
+            <% end %>
           <% end %>
           <%= date_info[:holidays].map{|h| h.name}.join('<br/>') %>
           <%= @lates.map{|l| "#{l.user.name} is running late" }.join('<br/>') if date.today? %>
