@@ -1,6 +1,6 @@
 #SumTimes
 
-[![Build Status](https://travis-ci.org/talho/sum_times.png)](https://travis-ci.org/talho/sum_times)
+[![Build Status](https://travis-ci.org/Yakrware/sum_times.png)](https://travis-ci.org/Yakrware/sum_times)
 
 ##Purpose
 
@@ -36,7 +36,7 @@ And now you can log into the site and create normal users.
 
 ##Customization
 
-Currently SumTimes is set with TALHO's values defaulted. To set your own values, before these are optioned off to .yml (feature coming soon),
+Currently SumTimes is set with values defaulted. To set your own values, before these are optioned off to .yml (feature coming soon),
 fork this repository, customize with your own values. Once forked you can use capistrano to deploy your project by modifying config/deploy/production.rb.examle
 
 ##Usage
@@ -52,7 +52,7 @@ Fork this repository, make changes, submit a pull request.
 
 ---
 
-Copyright (c) 2013, TALHO
+Copyright (c) 2013, Yakrware
 All rights reserved.
 
 Licensed under modified BSD to disallow commercial re-hosting.
