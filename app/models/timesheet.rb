@@ -13,11 +13,10 @@ class Timesheet < ActiveRecord::Base
   scope :waiting_for_supervisor, where(user_approved: true, supervisor_approved: nil)
 
   def schedule
-    @schedule ||= self[:schedule].blank? ? {} : JSON.parse(self[:schedule])
+    self[:schedule].blank? ? {} : JSON.parse(self[:schedule])
   end
 
   def schedule=(val)
-    @schedule = val
     self[:schedule] = @schedule.to_json
   end
 
@@ -58,7 +57,7 @@ class Timesheet < ActiveRecord::Base
     holder = self.schedule
     self.total_hours = self.worked_hours = self.holiday_hours = self.vacation_hours = self.sick_hours = self.admin_hours = self.unpaid_hours = 0
     sched_days.each do |sched|
-      leaves = Leave.where(user_id: self.user_id).where("start_date = :date OR (start_date <= :date AND end_date >= :date)", date: sched.date)
+      leaves = Leave.where(user_id: self.user_id).where("start_date = :date OR (start_date <= :date AND end_date >= :date AND end_date IS NOT NULL)", date: sched.date)
       holiday = Holiday.where("start_date = :date OR (start_date >= :date AND end_date <= :date)", date: sched.date).first
       vac = leaves.select{|l| l.category == 'vacation'}.map{ |l| l.hours(sched.date)}.sum
       sick = leaves.select{|l| l.category == 'sick'}.map{ |l| l.hours(sched.date)}.sum
