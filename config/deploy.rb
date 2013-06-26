@@ -34,3 +34,4 @@ end
 
 after "deploy:setup", "deploy:setup_config"
 after 'deploy:finalize_update', 'deploy:set_symlinks'
+after 'deploy:restart', 'unicorn:restart'
