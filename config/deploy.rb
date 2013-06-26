@@ -3,7 +3,7 @@ set :default_stage, "production"
 require 'capistrano/ext/multistage'
 
 set :application, "sumtimes"
-set :repository,  "git://github.com/talho/sum_times.git"
+set :repository,  "git://github.com/yakrware/sum_times.git"
 set :scm, :git
 
 set(:deploy_to) { "/home/talho/#{application}" }
@@ -34,4 +34,5 @@ end
 
 after "deploy:setup", "deploy:setup_config"
 after 'deploy:finalize_update', 'deploy:set_symlinks'
+after 'deploy:finalize_update', 'deploy:cleanup'
 after 'deploy:restart', 'unicorn:restart'
