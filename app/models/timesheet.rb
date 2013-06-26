@@ -17,7 +17,7 @@ class Timesheet < ActiveRecord::Base
   end
 
   def schedule=(val)
-    self[:schedule] = @schedule.to_json
+    self[:schedule] = val.to_json
   end
 
   def generate_schedule
