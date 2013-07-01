@@ -57,13 +57,13 @@ class Timesheet < ActiveRecord::Base
     holder = self.schedule
     self.total_hours = self.worked_hours = self.holiday_hours = self.vacation_hours = self.sick_hours = self.admin_hours = self.unpaid_hours = 0
     sched_days.each do |sched|
-      leaves = Leave.where(user_id: self.user_id).where("start_date = :date OR (start_date <= :date AND end_date >= :date AND end_date IS NOT NULL)", date: sched.date)
-      holiday = Holiday.where("start_date = :date OR (start_date >= :date AND end_date <= :date)", date: sched.date).first
+      leaves = Leave.where(user_id: self.user_id).where("start_date = :date OR (start_date <= :date AND end_date IS NOT NULL AND end_date >= :date)", date: sched.date)
+      holiday = Holiday.where("start_date = :date OR (start_date <= :date AND end_date IS NOT NULL AND end_date >= :date)", date: sched.date).first
       vac = leaves.select{|l| l.category == 'vacation'}.map{ |l| l.hours(sched.date)}.sum
       sick = leaves.select{|l| l.category == 'sick'}.map{ |l| l.hours(sched.date)}.sum
       admin = leaves.select{|l| l.category == 'admin'}.map{ |l| l.hours(sched.date)}.sum
       unpaid = leaves.select{|l| l.category == 'unpaid'}.map{ |l| l.hours(sched.date)}.sum
-      holiday = holiday.present? ? 8 : 0
+      holiday = holiday.present? ? sched.hours : 0
       norm = [sched.hours  - vac - sick - admin - unpaid - holiday, 0].max
       holder[sched.date.to_s] = {'worked_hours' => norm, 'vacation_hours' => vac, 'sick_hours' => sick, 'admin_hours' => admin, 'unpaid_hours' => unpaid, 'holiday_hours' => holiday}
     end
