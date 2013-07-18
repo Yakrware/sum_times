@@ -1,6 +1,5 @@
-#ruby=2.0.0-p0
+#ruby=2.0.0-p195
 #ruby-gemset=sumtimes
-
 
 source 'https://rubygems.org'
 

@@ -13,13 +13,14 @@ set :use_sudo, false
 set :rails_env, 'production'
 set :keep_releases, 5
 
-set :rvm_ruby_string, '2.0.0'
+set :rvm_ruby_string, '2.0.0-p195'
 require "rvm/capistrano"
 require 'capistrano-unicorn'
 require "bundler/capistrano"
 load 'deploy/assets'
 
 set :whenever_environment, defer { stage }
+set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
 namespace :deploy do
