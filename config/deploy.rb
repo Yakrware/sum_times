@@ -19,6 +19,9 @@ require 'capistrano-unicorn'
 require "bundler/capistrano"
 load 'deploy/assets'
 
+set :whenever_environment, defer { stage }
+require "whenever/capistrano"
+
 namespace :deploy do
   task :set_symlinks do
     run "if [ -f #{shared_path}/unicorn/production.rb ]; then rm #{release_path}/config/unicorn/production.rb; ln -fs #{shared_path}/unicorn/production.rb #{release_path}/config/unicorn/production.rb; fi"

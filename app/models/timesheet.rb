@@ -36,6 +36,19 @@ class Timesheet < ActiveRecord::Base
                                                                                                                 # stretching back 100 years.
   end
 
+  def self.generate_all_timesheets(month = Date.today.month, year = Date.today.year)
+    # may need to make month/year nil and redefine them here
+    User.where(active: true).each do |user|
+      ts = Timesheet.where(user_id: user.id, month: month, year: year).first_or_create
+      unless ts.ready_for_submission
+        ts.ready_for_submission = true
+        ts.save
+      end
+    end
+
+    TimesheetMailer.generated.deliver
+  end
+
   protected
 
   def self.update_from_change(user_id, start_date, end_date)

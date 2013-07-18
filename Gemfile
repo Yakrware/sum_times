@@ -18,6 +18,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'week_of_month'
 gem 'dynamic_form'
 gem "actionmailer-with-request", "~> 0.4.0"
+gem 'whenever'
 
 # Gems used only for assets and not required
 # in production environments by default.

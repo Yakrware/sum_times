@@ -18,16 +18,7 @@ class Admin::TimesheetsController < ApplicationController
   def generate
     month = params[:month].blank? ? params[:month] : Date.today.month
     year = params[:year].blank? ? params[:year] : Date.today.year
-
-    User.all.each do |user|
-      ts = Timesheet.where(user_id: user.id, month: month, year: year).first_or_create
-      unless ts.ready_for_submission
-        ts.ready_for_submission = true
-        ts.save
-      end
-    end
-
-    TimesheetMailer.generated.deliver
+    Timesheet.generate_all_timesheets(month, year)
 
     redirect_to admin_timesheets_path(month: params[:month], year: params[:year])
   end

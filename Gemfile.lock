@@ -45,6 +45,7 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-unicorn (0.1.7)
       capistrano
+    chronic (0.9.1)
     columnize (0.3.6)
     debugger (1.5.0)
       columnize (>= 0.3.1)
@@ -179,6 +180,9 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     week_of_month (1.2.1)
+    whenever (0.8.2)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
 
 PLATFORMS
   ruby
@@ -205,3 +209,4 @@ DEPENDENCIES
   uglifier
   unicorn
   week_of_month
+  whenever
