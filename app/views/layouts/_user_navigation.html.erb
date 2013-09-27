@@ -1,19 +1,5 @@
-<ul class="nav nav-list well">
-  <li class="nav-header">
-    <%= link_to raw('<i class="icon-cog"></i>'), edit_profiles_path, class: 'pull-right' %>
-    <%= current_user.name %>
-  </li>
-  <li><%= link_to 'My Schedule', schedule_path(current_user.id) %></li>
-  <li><%= link_to 'Leave Request', new_leave_path %></li>
-  <li><%= link_to "I'm going to be late!", lates_path, :method => :post, :confirm => "O Noes! Just click ok and it will all be alright (and everyone will know about your lateness)." %></li>
-  <li><%= link_to "My Timesheet", current_timesheets_path %></li>
-  <li class="nav-header">Coworkers</li>
-  <li><%= link_to 'Today', root_path %></li>
-  <li><%= link_to 'Office Schedule', calendar_schedules_path %></li>
-  <li><%= link_to 'Holidays', holidays_path %></li>
-  <% unless current_user.supervises.blank? %>
-    <li class="nav-header">Approvals</li>
-    <li><%= link_to "Leave Requests#{current_user.leave_requests.unapproved.count > 0 ? ' (' + current_user.leave_requests.unapproved.count.to_s + ')' : ''}", leaves_path %></li>
-    <li><%= link_to "Timesheets#{current_user.timesheets_to_accept.waiting_for_supervisor.count > 0 ? ' (' + current_user.timesheets_to_accept.waiting_for_supervisor.count.to_s + ')' : ''}", timesheets_path %></li>
-  <% end %>
+<ul class="nav nav-pills nav-stacked">
+  <li><%= link_to '<strong>Sumtimes</strong>'.html_safe, root_path %></li>
+  <li><%= link_to 'My Schedule', own_workdays_path %></li>
+  <li><%= link_to 'My Profile', profiles_path %></li>
 </ul>

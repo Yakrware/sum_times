@@ -1,7 +1,5 @@
-class TimesheetsController < ApplicationController
+class TimesheetsController < EmployeeController
   respond_to :html
-
-  before_filter :authenticate_user!
 
   def index
     @timesheets = current_user.timesheets_to_accept.waiting_for_supervisor

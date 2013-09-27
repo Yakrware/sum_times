@@ -1,5 +1,4 @@
-class Admin::TimesheetsController < ApplicationController
-  before_filter :authenticate_admin!
+class Boss::TimesheetsController < Boss::BossController
   respond_to :html
   def index
     month = params[:month].to_i unless params[:month].blank?

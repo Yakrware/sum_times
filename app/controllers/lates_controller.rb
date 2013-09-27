@@ -1,5 +1,4 @@
-class LatesController < ApplicationController
-  before_filter :authenticate_user!
+class LatesController < EmployeeController
 
   respond_to :js
 

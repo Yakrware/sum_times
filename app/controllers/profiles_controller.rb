@@ -1,8 +1,4 @@
-class ProfilesController < ApplicationController
-  # GET /profiles
-  # GET /profiles.json
-  before_filter :authenticate_user!
-
+class ProfilesController < EmployeeController
   respond_to :js, only: [:update]
   respond_to :html, except: [:update]
 
@@ -80,5 +76,11 @@ class ProfilesController < ApplicationController
       format.html { redirect_to profiles_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def user_params
+    params(:user).permit!
   end
 end

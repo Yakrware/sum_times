@@ -1,45 +1,31 @@
-class LeavesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_supervisor!, :only => [:update, :destroy]
+class LeavesController < EmployeeController
+  load_and_authorize_resource :leave, :except => [:index]
 
-  respond_to :html
-  # GET /leaves
-  # GET /leaves.json
   def index
-    @leaves = current_user.leave_requests.unapproved
-    respond_with(@leaves)
+    @leaves = current_user.leaves
   end
 
-  # GET /leaves/1
-  # GET /leaves/1.json
   def show
-    @leave = Leave.find(params[:id])
-
-    respond_with(@leave)
   end
 
-  # GET /leaves/new
-  # GET /leaves/new.json
   def new
-    @leave = Leave.new(user_id: current_user.id)
-
-    respond_with(@leave)
+    @leave = Leave.new(user_id: params[:user_id] || current_user.id)
   end
 
-  # POST /leaves
   def create
-  # POST /leaves.json
-    @leave = Leave.new(params[:leave])
+    @leave = Leave.new(leave_params)
+    authorize! :create, @leave
+    
     if @leave.save
       LeaveMailer.req(@leave).deliver
     end
     respond_with(@leave)
   end
 
-  # PUT /leaves/1
-  # PUT /leaves/1.json
   def update
-    @leave.update_attributes(params[:leave])
+    use_params = @leave.user_id != current_user.id ? supervisor_params : leave_params
+    
+    @leave.update_attributes(use_params)
 
     if params[:leave][:approved]
       LeaveMailer.accept(@leave, current_user).deliver
@@ -50,8 +36,6 @@ class LeavesController < ApplicationController
     end
   end
 
-  # DELETE /leaves/1
-  # DELETE /leaves/1.json
   def destroy
     @leave.destroy
 
@@ -68,12 +52,11 @@ class LeavesController < ApplicationController
 
   private
 
-  def check_supervisor!
-    @leave = Leave.find(params[:id])
-    unless @leave.user_id == current_user.id || @leave.user.supervisors.map(&:id).include?(current_user.id)
-      flash[:alert] = 'Can only update or delete leave requests if you are the user or a supervisor of the user that made the request'
-      redirect_to request.referrer
-      return false
-    end
+  def supervisor_params
+    params.require(:leave).permit!
+  end
+  
+  def leave_params
+    params.require(:leave).permit!
   end
 end

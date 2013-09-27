@@ -1,5 +1,4 @@
-class Admin::ProfilesController < ApplicationController
-  before_filter :authenticate_admin!
+class Boss::ProfilesController < Boss::BossController
 
   respond_to :html
 

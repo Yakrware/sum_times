@@ -1,0 +1,35 @@
+<h2>My Schedule This Month</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sunday</th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workweeks.each do |workdays| %>
+      <tr>
+      <% workdays.each do |workday| %>
+        <td>
+          <% unless workday.nil? %>
+            <%= l workday.date, :format => :short %>: <%= workday.hours.map{ |h| "#{h['start']}-#{h['end']}" }.join(', ') unless workday.hours.blank? %>
+            <% unless workday.recurring_days.blank? %>
+              <i class="icon-refresh" title="recurring"></i>
+              <br/><%= link_to 'edit', edit_workday_path(workday) %> <%= link_to 'override', new_workday_path(date: workday.date) %>
+            <% else %>
+              <br/><%= link_to 'edit', edit_workday_path(workday) %>
+            <% end %>
+          <% end %>
+        </td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Create New Schedule", new_workday_path %>

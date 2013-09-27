@@ -1,5 +1,4 @@
-class Admin::SupervisorsController < ApplicationController
-  before_filter :authenticate_admin!
+class Boss::SupervisorsController < Boss::BossController
 
   respond_to :html
 

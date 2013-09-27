@@ -1,6 +1,4 @@
-class Admin::HolidaysController < ApplicationController
-  before_filter :authenticate_admin!
-
+class Boss::HolidaysController < Boss::BossController
   respond_to :html
   # GET /admin/holidays
   # GET /admin/holidays.json

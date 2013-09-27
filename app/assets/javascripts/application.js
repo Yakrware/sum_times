@@ -12,8 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker/core
+//= require turbolinks
 //= require_tree .
 
 $(function(){

@@ -1,6 +1,4 @@
-class Admin::SchedulesController < ApplicationController
-  before_filter :authenticate_admin!
-
+class Boss::SchedulesController < Boss::BossController
   respond_to :html
 
   def new

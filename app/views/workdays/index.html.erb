@@ -1,0 +1,7 @@
+<h2>Schedule for Today</h2>
+<ul>
+  <% @workdays.each do |workday| %>
+    <li><%= workday.user.name %> - <%= workday.hours %></li>
+  <% end %>
+</ul>
+

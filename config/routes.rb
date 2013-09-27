@@ -2,9 +2,9 @@ SumTimes::Application.routes.draw do
 
   resources :holidays, :only => [:index]
 
-  resources :schedules, :except => [:update, :edit, :delete] do
+  resources :workdays do
     collection do
-      get 'calendar'
+      get 'own'
     end
   end
 
@@ -43,7 +43,7 @@ SumTimes::Application.routes.draw do
   devise_for :admins
   devise_for :users
 
-  root :to => "schedules#index"
+  root :to => "workdays#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

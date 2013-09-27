@@ -1,27 +1,10 @@
 development:
   adapter: postgresql
   database: sumtimes_development
-  username: openphin
-  password: Pass
-  encoding: unicode
-  host: 127.0.0.1
-  port: 5432
-  pool: 20
-  timeout: 5000
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test: &TEST
   adapter: postgresql
   database: sumtimes_test
-  username: openphin
-  password: Pass
-  encoding: unicode
-  host: 127.0.0.1
-  port: 5432
-  pool: 20
-  timeout: 5000
 
 cucumber:
   <<: *TEST

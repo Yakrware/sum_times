@@ -1,9 +1,8 @@
-#ruby=2.0.0-p195
-#ruby-gemset=sumtimes
+#ruby=2.0.0@sumtimes
 
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -12,12 +11,16 @@ gem 'pg'
 
 gem 'devise'
 
+gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
 gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'week_of_month'
 gem 'dynamic_form'
 gem "actionmailer-with-request", "~> 0.4.0"
 gem 'whenever'
+
+gem 'figaro'
+gem 'cancan'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,6 +37,8 @@ gem 'jquery-rails'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
+gem 'turbolinks'
+
 # Use unicorn as the app server
 group :production do
   gem 'unicorn'
@@ -44,7 +49,7 @@ group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
   gem 'capistrano-unicorn'
-  gem "debugger"
+  gem "byebug"
 end
 
 group :test, :development do

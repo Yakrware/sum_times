@@ -1,5 +1,4 @@
-class Admin::LeaveTransactionsController < ApplicationController
-  before_filter :authenticate_admin!
+class Boss::LeaveTransactionsController < Boss::BossController
   respond_to :html
 
   def new

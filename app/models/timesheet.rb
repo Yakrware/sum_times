@@ -1,5 +1,4 @@
 class Timesheet < ActiveRecord::Base
-  attr_accessible :month, :year, :user_id, :user_approved, :supervisor_approved, :schedule, :ready_for_submission
 
   validates :user_id, :presence => true
   validates :month, :presence => true, :uniqueness => {:scope => [:year, :user_id]}, :numericality => {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12}
