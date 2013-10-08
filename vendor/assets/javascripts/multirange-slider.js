@@ -22,6 +22,10 @@
       return Math.max(min, Math.min(max, val));
     }
     
+    function sortManyArray(a, b){
+      return a[0] - b[0];
+    }
+    
     var MultirangeSlider = function(element, options){
      this.element = $(element);
      
@@ -37,6 +41,9 @@
       this.scale_factor = 1/this.step;
       
       this._drawIntervals();
+      setTimeout($.proxy(function(){
+        this.element.find('.multirange-slider-handle').tooltip('show');
+      }, this), 1);
       
       if(!this.disabled){
         this.element.on('mousedown', '.multirange-slider-handle', $.proxy(this._dragStart, null, this));
@@ -65,11 +72,14 @@
             _end = between(end, this.min, this.max),
             left = between(100*(_start - this.min)/(this.max - this.min), 0, 100) + '%',
             right = between(100 - 100*(_end - this.min)/(this.max - this.min), 0, 100) + '%';
+            
+        $interval.css({left: left, right: right});
         
-        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: 'hover manual', animation: false});
-        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: 'hover manual', animation: false});
+        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: 'manual', html: true, animation: false});
+        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: 'manual', html: true, animation: false});
         
-        return $interval.css({left: left, right: right});
+        
+        return $interval;
       },
       
       _dragStart: function(slider, e){
@@ -88,22 +98,22 @@
       _dragMove: function(slider, e){
         if(slider.drag_data.handle){
           var percent = (e.clientX - slider.drag_data.el_start)/(slider.drag_data.el_end - slider.drag_data.el_start);
-          slider.intervals[slider.drag_data.interval_index][slider.drag_data.interval_side] = between(slider._snapValue(slider.min + percent*(slider.max-slider.min)), slider.drag_data.min, slider.drag_data.max);
+          slider.intervals[slider.drag_data.interval_index][slider.drag_data.interval_side] = between(slider._snapValue(slider.min + percent*(slider.max-slider.min)).toFixed(2), slider.drag_data.min, slider.drag_data.max);
           slider._setIntervalCss(slider.drag_data.handle.closest('.multirange-slider-range'), slider.intervals[slider.drag_data.interval_index][0], slider.intervals[slider.drag_data.interval_index][1]);
-          slider.drag_data.handle.tooltip('fixTitle').tooltip('setContent').tooltip('show');
+          slider.drag_data.handle.tooltip('fixTitle').tooltip('setContent');
+          slider.drag_data.handle.closest('.multirange-slider-range').find('.multirange-slider-handle').tooltip('show');
           e.preventDefault();
         }
       },
       
       _dragEnd: function(slider, e){
         if(slider.drag_data.handle){
-          slider.drag_data.handle.tooltip('hide');
           slider.drag_data.handle = null;
         }
       },
       
       _snapValue: function(number){
-        return (Math.round(number * this.scale_factor) / this.scale_factor).toFixed(2);
+        return Math.round(number * this.scale_factor) / this.scale_factor;
       },
       
       setIntervals: function(intervals){
@@ -120,8 +130,12 @@
             
         this.intervals[i][1] = mid_low;
         this.intervals.push([mid_high, end]);
-        this.intervals.sort();
+        this.intervals.sort(sortManyArray);
         this._drawIntervals();
+          
+        setTimeout($.proxy(function(){
+          this.element.find('.multirange-slider-handle').tooltip('show');
+        }, this), 1);
       },
       
       combineInterval: function(i){
@@ -136,7 +150,12 @@
         
         var removed = this.intervals.splice(i-1, 2);
         this.intervals.push([removed[0][0], removed[1][1]]);
+        this.intervals.sort(sortManyArray);
         this._drawIntervals();
+        
+        setTimeout($.proxy(function(){
+          this.element.find('.multirange-slider-handle').tooltip('show');
+        }, this), 1);
       },
       
       value: function(){

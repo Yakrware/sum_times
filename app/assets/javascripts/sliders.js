@@ -8,7 +8,7 @@ $(function(){
       step: 0.25,
       displayFormat: function(val){
         var hours = Math.floor(val);
-        return moment().hour(hours).minute(60*(val - hours)).format('h:mm A');
+        return moment().hour(hours).minute(60*(val - hours)).format('h:mm A').replace(/ /, '&nbsp;');
       } 
     });
   }
