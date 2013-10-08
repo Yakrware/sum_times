@@ -96,6 +96,8 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25)
     minitest (4.7.5)
+    momentjs-rails (2.2.1)
+      railties (>= 3.1)
     multi_json (1.8.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -209,6 +211,7 @@ DEPENDENCIES
   faker
   figaro
   jquery-rails
+  momentjs-rails
   parallel588-bootstrap-timepicker-rails
   pg
   rails

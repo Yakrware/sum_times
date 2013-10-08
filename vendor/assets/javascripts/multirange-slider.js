@@ -6,15 +6,16 @@
         ].join(''),
         range_markup = [
           '<div class="multirange-slider-range">',
-            '<div class="multirange-slider-left-handle"></div>',
-            '<div class="multirange-slider-right-handle"></div>',
+            '<a class="multirange-slider-handle multirange-slider-handle-left"></a>',
+            '<a class="multirange-slider-handle multirange-slider-handle-right"></a>',
           '</div>'
         ].join(''),
         default_options = {
           min: 0,
           max: 100,
           intervals: [[0,100]],
-          step: 1
+          step: 1,
+          displayFormat: function(val){ return val; }
         };
     
     function between(val, min, max){
@@ -30,18 +31,33 @@
         intervals: this.element.data('slider-intervals'),
         step: this.element.data('slider-step')
       });
-            
+           
       this.element.append(slider_markup);
+      this.drag_data = {};
+      this.scale_factor = 1/this.step;
       
-      for(var i = 0; i < this.intervals.length; i ++){
-        this.element.append(this._setIntervalCss($(range_markup), this.intervals[i][0], this.intervals[i][1]));
-      }
+      this._drawIntervals();
+      
+      if(!this.disabled){
+        this.element.on('mousedown', '.multirange-slider-handle', $.proxy(this._dragStart, null, this));
+        $(document).on('mousemove', $.proxy(this._dragMove, null, this));
+        $(document).on('mouseup', $.proxy(this._dragEnd, null, this));
+      }  
       
       this.element.addClass('multirange-slider');
     }
-    
+        
     MultirangeSlider.prototype = {
       constructor: MultirangeSlider,
+      
+      _drawIntervals: function(){
+        this.element.find('.multirange-slider-range').remove();
+        for(var i = 0; i < this.intervals.length; i ++){
+          var interval = this._setIntervalCss($(range_markup), this.intervals[i][0], this.intervals[i][1]);
+          interval.data('interval_index', i);
+          this.element.append(interval);
+        }
+      },
       
       _setIntervalCss: function(interval, start, end){
         var $interval = $(interval),
@@ -50,10 +66,81 @@
             left = between(100*(_start - this.min)/(this.max - this.min), 0, 100) + '%',
             right = between(100 - 100*(_end - this.min)/(this.max - this.min), 0, 100) + '%';
         
-        $interval.find('.multirange-slider-left-handle').attr('title', start);
-        $interval.find('.multirange-slider-right-handle').attr('title', end);
+        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: 'hover manual', animation: false});
+        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: 'hover manual', animation: false});
         
         return $interval.css({left: left, right: right});
+      },
+      
+      _dragStart: function(slider, e){
+        var $this = $(this);
+        slider.drag_data.handle = $this;
+        slider.drag_data.interval_index = $this.closest('.multirange-slider-range').data('interval_index');
+        slider.drag_data.interval_side = $this.hasClass('multirange-slider-handle-left') ? 0 : 1;
+        slider.drag_data.start_interval = slider.intervals[slider.drag_data.interval_index][slider.drag_data.interval_side];
+        slider.drag_data.min = slider.drag_data.interval_side == 0 ? (slider.intervals[slider.drag_data.interval_index-1] ? slider.intervals[slider.drag_data.interval_index-1][1] : slider.min) : slider.intervals[slider.drag_data.interval_index][0];
+        slider.drag_data.max = slider.drag_data.interval_side == 0 ? slider.intervals[slider.drag_data.interval_index][1] : (slider.intervals[slider.drag_data.interval_index+1] ? slider.intervals[slider.drag_data.interval_index+1][0] : slider.max);
+        slider.drag_data.el_start = slider.element.offset().left;
+        slider.drag_data.el_end = slider.drag_data.el_start + slider.element.width();
+        e.preventDefault();
+      },
+      
+      _dragMove: function(slider, e){
+        if(slider.drag_data.handle){
+          var percent = (e.clientX - slider.drag_data.el_start)/(slider.drag_data.el_end - slider.drag_data.el_start);
+          slider.intervals[slider.drag_data.interval_index][slider.drag_data.interval_side] = between(slider._snapValue(slider.min + percent*(slider.max-slider.min)), slider.drag_data.min, slider.drag_data.max);
+          slider._setIntervalCss(slider.drag_data.handle.closest('.multirange-slider-range'), slider.intervals[slider.drag_data.interval_index][0], slider.intervals[slider.drag_data.interval_index][1]);
+          slider.drag_data.handle.tooltip('fixTitle').tooltip('setContent').tooltip('show');
+          e.preventDefault();
+        }
+      },
+      
+      _dragEnd: function(slider, e){
+        if(slider.drag_data.handle){
+          slider.drag_data.handle.tooltip('hide');
+          slider.drag_data.handle = null;
+        }
+      },
+      
+      _snapValue: function(number){
+        return (Math.round(number * this.scale_factor) / this.scale_factor).toFixed(2);
+      },
+      
+      setIntervals: function(intervals){
+        this.intervals = intervals;
+        this._drawIntervals();
+      },
+      
+      splitInterval: function(i){
+        i = (i && i !== 0) ? i : this.intervals.length - 1;
+        var start = this.intervals[i][0],
+            end = this.intervals[i][1],
+            mid_low = this._snapValue((end + start)/2),
+            mid_high = mid_low + this.step;
+            
+        this.intervals[i][1] = mid_low;
+        this.intervals.push([mid_high, end]);
+        this.intervals.sort();
+        this._drawIntervals();
+      },
+      
+      combineInterval: function(i){
+        if(this.intervals.length < 2){
+          return; // we don't have any breaks to remove
+        }
+        
+        i = (i && i !== 0) ? i : this.intervals.length - 1;
+        if(!this.intervals[i - 1]){
+          i = i + 1;
+        }
+        
+        var removed = this.intervals.splice(i-1, 2);
+        this.intervals.push([removed[0][0], removed[1][1]]);
+        this._drawIntervals();
+      },
+      
+      value: function(){
+        return this.intervals;
       }
     }
     
@@ -84,5 +171,4 @@
       
       return ret !== undefined ? ret : this;
     }
-
 }(jQuery));

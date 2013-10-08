@@ -11,9 +11,6 @@ gem 'pg'
 
 gem 'devise'
 
-gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
-gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
-gem 'bootstrap-datepicker-rails'
 gem 'week_of_month'
 gem 'dynamic_form'
 gem "actionmailer-with-request", "~> 0.4.0"
@@ -27,6 +24,10 @@ gem 'cancan'
 group :assets do
   gem 'sass-rails'
   gem 'uglifier'
+  gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
+  gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
+  gem 'bootstrap-datepicker-rails'
+  gem 'momentjs-rails'
 end
 
 gem 'jquery-rails'

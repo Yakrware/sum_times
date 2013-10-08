@@ -1,5 +1,5 @@
 
-<%= form_for workday do |f| %>
+<%= form_for workday, html: {class: 'workday-form'} do |f| %>
   <%= f.hidden_field :user_id %>
   <div class="form-group">
     <%= f.label :date, 'Start Date' %>

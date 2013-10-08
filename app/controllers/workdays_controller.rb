@@ -59,7 +59,7 @@ class WorkdaysController < EmployeeController
   private
   
   def workday_params
-    params[:recurring_days] = params[:recurring_days].map{|d| d.to_i} if params[:recurring_days]
+    params[:workday][:recurring_days] = params[:workday][:recurring_days].map{|d| d.to_i} if params[:workday][:recurring_days]
     params.require(:workday).permit!
   end
 end

@@ -6,7 +6,7 @@ $ns: 'multirange-slider';
   width: 100%;
   height: 14px;
   position: relative;
-  
+    
   .#{$ns}-bar, .#{$ns}-range{
     position: absolute;
     top: 4px;
@@ -19,8 +19,9 @@ $ns: 'multirange-slider';
   
   .#{$ns}-range{
     background: #58A;
+    min-width: 8px;
     
-    .#{$ns}-left-handle, .#{$ns}-right-handle{
+    .#{$ns}-handle{
       position: absolute;
       top: -4px;
       bottom: -4px;
@@ -29,14 +30,15 @@ $ns: 'multirange-slider';
       background: #AAA;
       border: 1px solid #888;
       cursor: ew-resize;
+      display: block;
     }
     
-    .#{$ns}-left-handle{
-      left: 0px;
+    .#{$ns}-handle-left{
+      left: -4px;
     }
     
-    .#{$ns}-right-handle{
-      right: 0px;
+    .#{$ns}-handle-right{
+      right: -4px;
     }
     
   }
