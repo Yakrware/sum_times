@@ -17,13 +17,11 @@
       <% workdays.each do |workday| %>
         <td>
           <% unless workday.nil? %>
-            <%= l workday.date, :format => :short %>: <%= workday.hours.map{ |h| "#{h['start']}-#{h['end']}" }.join(', ') unless workday.hours.blank? %>
-            <% unless workday.recurring_days.blank? %>
-              <i class="icon-refresh" title="recurring"></i>
-              <br/><%= link_to 'edit', edit_workday_path(workday) %> <%= link_to 'override', new_workday_path(date: workday.date) %>
-            <% else %>
-              <br/><%= link_to 'edit', edit_workday_path(workday) %>
-            <% end %>
+            <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="icon-refresh" title="recurring"></i><% end %>
+            <br/>
+            <div class="hour-slider" data-slider-min="5" data-slider-max="21" data-slider-intervals="<%= workday.hours.map{|h| [h['start'], h['end']]} %>"></div>
+            <%= link_to 'edit', edit_workday_path(workday) %>
+            <%= link_to 'override', new_workday_path(date: workday.date) unless workday.recurring_days.blank? %>
           <% end %>
         </td>
       <% end %>

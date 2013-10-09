@@ -2,7 +2,7 @@
 
 $(function(){
   var self, sliders_controller = function(){
-    $('.slider-intervals').multirange_slider({ 
+    var default_options = { 
       min: 0, 
       max: 24, 
       step: 0.25,
@@ -10,7 +10,10 @@ $(function(){
         var hours = Math.floor(val);
         return moment().hour(hours).minute(60*(val - hours)).format('h:mm A').replace(/ /, '&nbsp;');
       } 
-    });
+    };
+    
+    $('.slider-intervals').multirange_slider(default_options);
+    $('.hour-slider').multirange_slider($.extend({}, default_options, {disabled: true}))
   }
   
   function init(){

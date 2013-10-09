@@ -15,7 +15,7 @@ class Workday < ActiveRecord::Base
     start = start.at_beginning_of_month
     true_start = start.at_beginning_of_week
     workweeks = []
-    (0..start.at_end_of_month.week_of_month).each do |wom|
+    (0..(start.at_end_of_month.week_of_month-1)).each do |wom|
       week_start = true_start + wom.weeks
       workdays = []
       (-1..5).each do |dow|

@@ -1,0 +1,46 @@
+$ns: 'multirange-slider';
+
+.#{$ns}{
+  width: 100%;
+  height: 14px;
+  position: relative;
+  
+  &.#{$ns}-editable{
+    margin-top: 30px;
+  }
+  
+  .#{$ns}-bar, .#{$ns}-range{
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0px;
+    right: 0px;
+    border: 1px solid #AAA;
+    border-radius: 2px;    
+  }
+  
+  .#{$ns}-range{
+    background: #58A;
+    min-width: 8px;
+    
+    .#{$ns}-handle{
+      position: absolute;
+      top: -4px;
+      bottom: -4px;
+      width: 8px;
+      border-radius: 2px;
+      background: #AAA;
+      border: 1px solid #888;
+      cursor: ew-resize;
+      display: block;
+    }
+    
+    .#{$ns}-handle-left{
+      left: -4px;
+    }
+    
+    .#{$ns}-handle-right{
+      right: -4px;
+    }
+  }
+}
