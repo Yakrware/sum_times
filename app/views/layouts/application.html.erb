@@ -7,25 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="row" style="margin: 0">
-    <div class="col-sm-2">
-      <%# Render a menu of all of the neat stuff you can do with this app %>
-      <% if user_signed_in? %>
-        <%= render :partial => 'layouts/user_navigation' %>
-      <% else %>
-        <ul class="nav nav-pills nav-stacked">
-          <li><%= link_to 'Sign In', new_user_session_path %></li>
-        </ul>
-      <% end %>
-    </div>
-    <div class="col-sm-10">
-      <% (flash.keys & [:notice, :alert]).each do |key| %>
-        <div class="alert <%= key == :alert ? 'alert-error' : '' %>">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <%= flash[key] %>
-        </div>
-      <% end %>
-      <%= yield %>
+  <div class="container">
+    <div class="row" style="margin: 0">
+      <%= content_for?(:main_body) ? yield(:main_body) : yield %>
     </div>
   </div>
 </body>

@@ -13,13 +13,13 @@ $(function(){
     };
     
     $('.slider-intervals').multirange_slider(default_options);
-    $('.hour-slider').multirange_slider($.extend({}, default_options, {disabled: true}))
+    $('.hour-slider').multirange_slider($.extend({}, default_options, {disabled: true, showTip: false}))
   }
   
   function init(){
     self = new sliders_controller();
   }
   
-  window.setTimeout(init, 1);
+  _.defer(init);
   $(document).on('page:change', init);
 });

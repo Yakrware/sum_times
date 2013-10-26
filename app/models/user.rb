@@ -13,10 +13,14 @@ class User < ActiveRecord::Base
   has_many :leave_requests, :through => :supervises, :source => :leaves
   has_many :leave_transactions
   has_many :timesheets
-  has_many :timesheets_to_accept, :through => :supervises, :source => :timesheets
+  has_many :timesheets_to_accept, :through => :supervises, :source => :timesheets  
+  belongs_to :company, autosave: true
+  has_one :option, autosave: true, :dependent => :destroy
   
-  belongs_to :company
-
+  accepts_nested_attributes_for :option
+  
+  validates :name, :presence => true
+  
   def current_schedule
     self.schedules.where('start_date <= :date AND (end_date >= :date OR end_date IS NULL)', :date => Date.today).first
   end

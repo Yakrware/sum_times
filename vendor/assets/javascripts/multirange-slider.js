@@ -15,7 +15,8 @@
           max: 100,
           intervals: [[0,100]],
           step: 1,
-          displayFormat: function(val){ return val; }
+          displayFormat: function(val){ return val; },
+          showTip: true
         };
     
     function between(val, min, max){
@@ -42,8 +43,10 @@
       
       this._drawIntervals();
       
+      if(this.showTip){ this.element.addClass('multirange-slider-showtip'); }
+        
       if(!this.disabled){
-        this.element.addClass('multirange-slider-editable');
+        
         
         setTimeout($.proxy(function(){
           this.element.find('.multirange-slider-handle').tooltip('show');
@@ -52,7 +55,9 @@
         this.element.on('mousedown', '.multirange-slider-handle', $.proxy(this._dragStart, null, this));
         $(document).on('mousemove', $.proxy(this._dragMove, null, this));
         $(document).on('mouseup', $.proxy(this._dragEnd, null, this));
-      }  
+      } else {
+        this.element.addClass('multirange-slider-disabled');
+      }
       
       this.element.addClass('multirange-slider');
     }
@@ -78,8 +83,8 @@
             
         $interval.css({left: left, right: right});
         
-        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: this.disabled ? 'hover' : 'manual', html: true, animation: false});
-        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: this.disabled ? 'hover' : 'manual', html: true, animation: false});
+        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
+        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
         
         
         return $interval;

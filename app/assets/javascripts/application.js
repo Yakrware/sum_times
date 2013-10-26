@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker/core
@@ -21,4 +22,11 @@
 
 $(function(){
   $('a[href$="' + window.location.pathname + '"]').closest('li').addClass('active')
+  
+  function initTooltips(){
+    $('[data-toggle=tooltip]').tooltip();
+  }
+  
+  _.defer(initTooltips);
+  $(document).on('page:change', initTooltips);
 });

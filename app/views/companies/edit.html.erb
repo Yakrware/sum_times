@@ -1,0 +1,12 @@
+<h1>Editing Company Options</h1>
+
+<%= form_for @company do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+  
+  <%= render :partial => "options/form", :locals => {option: @company.option, model_name: 'company', f: f} %>
+  
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>

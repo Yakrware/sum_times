@@ -1,0 +1,40 @@
+<%= f.fields_for :option do |o| %>
+  <div class="form-group form-inline">
+    <%= o.label 'value[scheduling]', 'Scheduling' %><br/>
+    <span class="radio">
+      <%= o.radio_button 'flex', 'flex', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'flex'} %> 
+      <%= o.label 'flex', 'Flex Time' %>
+    </span>
+    <span class="radio">
+      <%= o.radio_button 'scheduled', 'scheduled', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'scheduled'} %> 
+      <%= o.label 'scheduled', 'Scheduled' %>
+    </span>
+  </div>
+  
+  <div class="form-group form-inline">
+    <%= o.label 'value[wage]', 'Wage' %><br/>
+    <span class="radio">
+      <%= o.radio_button 'salaried', 'salaried', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'salaried'} %> 
+      <%= o.label 'salaried', 'Salaried' %>
+    </span>
+    <span class="radio">
+      <%= o.radio_button 'hourly', 'hourly', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'hourly'} %> 
+      <%= o.label 'hourly', 'Hourly' %>
+    </span>
+  </div>
+  
+  
+  <div class="form-group">
+    <%= o.label 'value[pay_period]', 'Pay Period' %><br/>
+    <%= o.select 'value', [['Monthly (end of month)', 'monthly'], 
+                                ['Bi-monthly (15th and end)', 'bi-monthly'], 
+                                ['Bi-weekly (every other Friday)', 'bi-weekly'], 
+                                ['Weekly (Friday)', 'weekly']],
+                 {selected: option.value['pay_period']}, {name: "#{model_name}[option_attributes][value][pay_period]", class: "form-control"} %>
+  </div>
+  
+  <div class="form-group">
+    <%= o.label 'day_start_and_end', 'Business Hours <i class="icon-question-sign" data-toggle="tooltip" data-placement="auto" data-title="The earliest and latest that anyone could possibly work"></i>'.html_safe %><br/>
+    <div class="slider-intervals" data-slider-min="0" data-slider-max="24" data-slider-intervals="<%= [[ option.value['day_start'], option.value['day_end'] ]] %>"></div>
+  </div>
+<% end %>

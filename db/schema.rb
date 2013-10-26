@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130924201303) do
+ActiveRecord::Schema.define(version: 20131010160157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,16 +74,12 @@ ActiveRecord::Schema.define(version: 20130924201303) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "leaves", force: true do |t|
+  create_table "options", force: true do |t|
     t.integer  "user_id"
-    t.text     "reason"
-    t.integer  "hours"
-    t.string   "category"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.boolean  "approved"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "company_id"
+    t.json     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "supervisor_users", id: false, force: true do |t|
@@ -145,6 +141,7 @@ ActiveRecord::Schema.define(version: 20130924201303) do
     t.date     "date"
     t.json     "hours"
     t.integer  "recurring_days", default: [],              array: true
+    t.string   "category"
   end
 
 end

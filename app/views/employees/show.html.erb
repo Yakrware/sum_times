@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-6">
+    <h2><%= @employee.name %></h2>
+    <p>
+      <%= @employee.email %><br/>
+      <%= link_to 'Edit My Profile', edit_user_registration_path if @employee.id == current_user.id %><br/>
+      <%= link_to 'Edit Employee', edit_employee_path if can? :edit, @employee %>
+    </p>
+    <% if can? :read, @employee.option %><%#  change this to managing profile options -%>
+      <h3>Options</h3>
+      <% @employee.option.value.each do |k, v| %>
+        <p><strong><%= k.titleize %>:</strong>
+          <%= v %>
+        </p>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <h3>Upcoming Leave</h3>
+  </div>
+</div>

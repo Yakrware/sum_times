@@ -1,0 +1,5 @@
+<h2>Edit <%= @employee.name %></h2>
+
+<div class="employees">
+  <%= render :partial => 'form', locals: { url: employee_path(@employee) } %>
+</div>

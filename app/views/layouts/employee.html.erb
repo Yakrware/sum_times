@@ -1,0 +1,18 @@
+<% content_for :main_body do %>
+  <div class="col-sm-2">
+    <%# Render a menu of all of the neat stuff you can do with this app %>
+    <% if user_signed_in? %>
+      <%= render :partial => 'layouts/user_navigation' %>
+    <% else %>
+      <ul class="nav nav-pills nav-stacked">
+        <li><%= link_to 'Sign In', new_user_session_path %></li>
+      </ul>
+    <% end %>
+  </div>
+  <div class="col-sm-10">
+    <%= render_flash %>
+    <%= yield %>
+  </div>
+<% end %>
+
+<%= render :template => 'layouts/application' %>

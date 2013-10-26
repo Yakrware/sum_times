@@ -1,0 +1,40 @@
+<h1><%= @company.name %></h1>
+<%= link_to 'Edit', edit_company_path %>
+<div class="row">
+  <div class="col-sm-6">
+    <h3>Employees</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @company.users.each do |user| %>
+          <tr>
+            <td><%= link_to user.name, employee_path(user) %></td>
+            <td>
+              <%= '<span class="label label-success">active</span>'.html_safe if user.active? %>
+              <%= '<span class="label label-primary">admin</span>'.html_safe if user.admin? %>
+            </td>
+            <td>
+              <%= link_to '<i class="icon-edit" title="Edit"></i>'.html_safe, edit_employee_path(user) %>
+              <%= link_to '<i class="icon-remove" title="Remove Employee"></i>'.html_safe, employee_path(user), method: :delete, confirm: 'Are you sure you want to remove this employee? You will lose all of this user\'s history. Consider deactivating instead.' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to 'New Employee', new_employee_path, class: 'btn btn-default' %>
+  </div>
+  <div class="col-sm-6">
+    <h3>Options</h3>
+    <% @company.option.value.each do |k, v| %>
+      <p><strong><%= k.titleize %>:</strong>
+        <%= v %>
+      </p>
+    <% end %>
+  </div>
+</div>

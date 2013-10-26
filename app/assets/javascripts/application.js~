@@ -12,12 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker/core
+//= require moment
 //= require turbolinks
 //= require_tree .
 
 $(function(){
   $('a[href$="' + window.location.pathname + '"]').closest('li').addClass('active')
+  
+  function initTooltips(){
+    $('[data-toggle=tooltip]').
+  }
 });

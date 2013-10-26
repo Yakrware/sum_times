@@ -1,8 +1,8 @@
 $(function(){
   var self, workday_controller = function(){
     $(document).on('submit', '.workday-form', this.addRange);
-    $(document).on('click', '.remove-break', this.removeBreak);
-    $(document).on('click', '.add-break', this.addBreak);
+    $(document).on('click', '.workday-form .remove-break', this.removeBreak);
+    $(document).on('click', '.workday-form .add-break', this.addBreak);
   }
   
   workday_controller.prototype.addRange = function(e){
@@ -20,10 +20,5 @@ $(function(){
     $('.slider-intervals').multirange_slider('splitInterval');
   }
   
-  function init(){
-    self = new workday_controller();
-  }
-  
-  setTimeout(init, 1);
-  $(document).on('page:change', init);
+  self = new workday_controller();
 });

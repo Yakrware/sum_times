@@ -5,7 +5,7 @@ $ns: 'multirange-slider';
   height: 14px;
   position: relative;
   
-  &.#{$ns}-editable{
+  &.#{$ns}-showtip{
     margin-top: 30px;
   }
   
@@ -41,6 +41,14 @@ $ns: 'multirange-slider';
     
     .#{$ns}-handle-right{
       right: -4px;
+    }
+  }
+  
+  &.#{$ns}-disabled{
+    .#{$ns}-range{
+      .#{$ns}-handle{
+        cursor: default;
+      }
     }
   }
 }

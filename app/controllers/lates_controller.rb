@@ -1,4 +1,4 @@
-class LatesController < EmployeeController
+class LatesController < EmployeeBaseController
 
   respond_to :js
 

@@ -1,4 +1,4 @@
-class WorkdaysController < EmployeeController
+class WorkdaysController < EmployeeBaseController
   load_and_authorize_resource :workday, except: [:own, :create]
     
   def index
@@ -13,8 +13,11 @@ class WorkdaysController < EmployeeController
   end
 
   def new
+    user_id = params[:user_id] || current_user.id
     params[:date] = (params[:date] || Date.today).to_date
-    @workday = Workday.new(user_id: params[:user_id] || current_user.id, date: params[:date])
+    day = Workday.where(user_id: user_id).on_date(params[:date]).first
+    hours = day.nil? ? [] : day.hours
+    @workday = Workday.new(user_id: user_id, date: params[:date], hours: hours)
   end
 
   def create

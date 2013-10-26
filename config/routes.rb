@@ -1,5 +1,4 @@
 SumTimes::Application.routes.draw do
-
   resources :holidays, :only => [:index]
 
   resources :workdays do
@@ -10,12 +9,7 @@ SumTimes::Application.routes.draw do
 
   resources :lates
   resources :leaves
-  resources :profiles, :except => [:edit, :update] do
-    collection do
-      get 'edit'
-      put '' => 'profiles#update'
-    end
-  end
+  resources :employees
   resources :timesheets, :only => [:index, :show, :update] do
     get 'current', on: :collection
     member do
@@ -25,6 +19,8 @@ SumTimes::Application.routes.draw do
       put 'regenerate'
     end
   end
+
+  resource :company, only: [:show, :edit, :update]
 
   namespace :admin do
     resources :holidays, :except => [:show]
@@ -41,7 +37,7 @@ SumTimes::Application.routes.draw do
   end
 
   devise_for :admins
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "users/registrations"}
 
   root :to => "workdays#index"
 

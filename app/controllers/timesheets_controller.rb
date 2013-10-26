@@ -1,4 +1,4 @@
-class TimesheetsController < EmployeeController
+class TimesheetsController < EmployeeBaseController
   respond_to :html
 
   def index

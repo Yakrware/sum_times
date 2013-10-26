@@ -16,6 +16,8 @@ gem 'dynamic_form'
 gem "actionmailer-with-request", "~> 0.4.0"
 gem 'whenever'
 
+gem 'underscore-rails'
+
 gem 'figaro'
 gem 'cancan'
 

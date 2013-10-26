@@ -1,0 +1,16 @@
+<h1>Listing employees</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |profile| %>
+      <tr>
+        <td><%= link_to profile.name, employee_path(profile.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

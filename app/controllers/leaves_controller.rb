@@ -1,4 +1,4 @@
-class LeavesController < EmployeeController
+class LeavesController < EmployeeBaseController
   load_and_authorize_resource :leave, :except => [:index]
 
   def index
