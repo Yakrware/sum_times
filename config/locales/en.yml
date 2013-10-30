@@ -5,3 +5,4 @@ en:
   date:
     formats:
       month_name: '%B'
+      very_long: '%A, %B %d, %Y'

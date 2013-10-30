@@ -2,7 +2,8 @@ class WorkdaysController < EmployeeBaseController
   load_and_authorize_resource :workday, except: [:own, :create]
     
   def index
-    @workdays = @workdays.today
+    @date = (params[:date] || Date.today).to_date
+    @workdays = @workdays.scheduled_on_date(@date)
   end
   
   def own
@@ -18,11 +19,12 @@ class WorkdaysController < EmployeeBaseController
     day = Workday.where(user_id: user_id).on_date(params[:date]).first
     hours = day.nil? ? [] : day.hours
     @workday = Workday.new(user_id: user_id, date: params[:date], hours: hours)
+    authorize! :schedule, @workday
   end
 
   def create
     @workday = Workday.new(workday_params)
-    authorize! :create, @workday
+    authorize! :schedule, @workday
 
     if @workday.save
       redirect_to own_workdays_path

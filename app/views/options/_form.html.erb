@@ -1,25 +1,25 @@
 <%= f.fields_for :option do |o| %>
   <div class="form-group form-inline">
-    <%= o.label 'value[scheduling]', 'Scheduling' %><br/>
+    <%= o.label 'value[scheduling]', 'Scheduling' %> <i class="icon-question-sign" data-toggle="tooltip" data-placement="auto" data-title="Flex gives employees autonomy while scheduled does not. See labels for more description."></i><br/>
     <span class="radio">
       <%= o.radio_button 'flex', 'flex', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'flex'} %> 
-      <%= o.label 'flex', 'Flex Time' %>
+      <%= o.label 'flex', '<span data-toggle="tooltip" data-placement="auto" data-title="Flex scheduling allows employees to set their own schedules and keep their own times. This is appropriate for an office or location that keeps a regular schedule.">Flex</span>'.html_safe %>
     </span>
     <span class="radio">
       <%= o.radio_button 'scheduled', 'scheduled', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'scheduled'} %> 
-      <%= o.label 'scheduled', 'Scheduled' %>
+      <%= o.label 'scheduled', '<span data-toggle="tooltip" data-placement="auto" data-title="Scheduled asks an admin to set all the schedules. This is appropriate for a company that keeps shifts.">Scheduled</span>'.html_safe %>
     </span>
   </div>
   
   <div class="form-group form-inline">
-    <%= o.label 'value[wage]', 'Wage' %><br/>
+    <%= o.label 'value[wage]', 'Wage' %> <i class="icon-question-sign" data-toggle="tooltip" data-placement="auto" data-title="Wage combines with scheduling to determine how time is kept and reported."></i><br/>
     <span class="radio">
       <%= o.radio_button 'salaried', 'salaried', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'salaried'} %> 
-      <%= o.label 'salaried', 'Salaried' %>
+      <%= o.label 'salaried', '<span data-toggle="tooltip" data-placement="auto" data-title="Salaried Flex works as an exception system. Once a schedule is set, an employee doesn\'t need to modify it unless things change. Salaried Scheduled asks an admin to set a schedule for an employee.">Salaried</span>'.html_safe %>
     </span>
     <span class="radio">
       <%= o.radio_button 'hourly', 'hourly', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'hourly'} %> 
-      <%= o.label 'hourly', 'Hourly' %>
+      <%= o.label 'hourly', '<span data-toggle="tooltip" data-placement="auto" data-title="Hourly only reports hours that an employee is punched in. Hourly Flex allows an employee to set and override a schedule or punch in/out. Hourly Scheduled allows an admin to set a schedule, but requires an employee to punch in/out.">Hourly</span>'.html_safe %>
     </span>
   </div>
   

@@ -1,0 +1,11 @@
+<%= render :partial => 'layouts/time' %>
+<h3><%= current_user.name %></h3>
+<% if current_user.option.hourly? %>
+  <%= render :partial => 'common/slider', locals: {editable: false, workday: @current_workday} if @current_workday %>
+  <% if @current_workday && @current_workday.punched_in? %>
+    <p>Punched in <strong><%= time_ago_in_words Time.now.at_beginning_of_day + (Workday.last.hours.last["start"]*60).minutes %> ago</strong></p>
+    <%= button_to 'Punch Out', punch_out_path, class: 'btn btn-warning btn-block' %>
+  <% else %>
+    <%= button_to 'Punch In', punch_in_path, class: 'btn btn-success btn-block' %>
+  <% end %>
+<% end %>

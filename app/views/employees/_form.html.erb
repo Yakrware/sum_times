@@ -12,8 +12,13 @@
       </div>
       
       <div class="form-group checkbox">
-        <%= f.check_box :active, {}, true, false %>
+        <%= f.check_box :active, {}, true, 'false' %>
         <%= f.label :active %>
+      </div>
+      
+      <div class="form-group checkbox">
+        <%= f.check_box :admin, {}, true, 'false' %>
+        <%= f.label :admin %>
       </div>
     </div>
   

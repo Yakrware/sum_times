@@ -9,7 +9,7 @@ class Workday < ActiveRecord::Base
                                   GROUP BY w2.user_id 
                                  ) AS active USING (user_id, date)", :date => in_date]) ) }
   scope :today, -> { on_date(Date.today) }
-
+  
   def self.workmonth(user, start)
     start ||= Date.today
     start = start.at_beginning_of_month
@@ -28,6 +28,40 @@ class Workday < ActiveRecord::Base
     end
     
     workweeks
+  end
+  
+  def self.current_hour
+    return Time.now.hour + Time.now.min/60.0
+  end
+
+  def punched_in?
+    !hours.last.nil? && hours.last['end'].blank?
+  end
+  
+  def close_pairs
+    hours.each do |h|
+      if h["end"].blank?
+        hours_will_change!
+        h["end"] = Workday.current_hour 
+      end
+    end
+  end
+  
+  def open_pair
+    hours_will_change!
+    hours << {"start" => Workday.current_hour}
+  end
+  
+  def recurring?
+    !recurring_days.blank?
+  end
+  
+  def self.realize
+    Workday.today.where("workdays.recurring_days != '{}'").each do |wd|
+      if wd.user.option.salaried?
+        wd.user.workdays.create date: Date.today, hours: wd.hours
+      end
+    end
   end
 
   private

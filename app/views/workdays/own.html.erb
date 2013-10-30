@@ -19,9 +19,9 @@
           <% unless workday.nil? %>
             <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="icon-refresh" title="recurring"></i><% end %>
             <br/>
-            <div class="hour-slider" data-slider-min="5" data-slider-max="21" data-slider-intervals="<%= workday.hours.map{|h| [h['start'], h['end']]} %>"></div>
-            <%= link_to 'edit', edit_workday_path(workday) %>
-            <%= link_to 'override', new_workday_path(date: workday.date) unless workday.recurring_days.blank? %>
+            <%= render :partial => 'common/slider', locals: {editable: false, workday: workday, user: current_user} %>
+            <%= link_to 'edit', edit_workday_path(workday) if can?(:schedule, Workday) || !workday.recurring? %>
+            <%= link_to 'override', new_workday_path(date: workday.date) if can?(:schedule, Workday) && workday.recurring? %>
           <% end %>
         </td>
       <% end %>
@@ -30,4 +30,4 @@
   </tbody>
 </table>
 
-<%= link_to "Create New Schedule", new_workday_path %>
+<%= link_to "Create New Schedule", new_workday_path if can? :schedule, Workday %>

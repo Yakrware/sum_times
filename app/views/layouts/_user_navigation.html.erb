@@ -2,6 +2,7 @@
   <li><%= link_to '<strong>Sumtimes</strong>'.html_safe, root_path %></li>
   <li><%= link_to 'My Schedule', own_workdays_path %></li>
   <li><%= link_to 'My Profile', employee_path(current_user.id) %></li>
+  <% if can? :read, :timesheet %><li><%= link_to 'Timesheets', timesheets_path %></li><% end %>
   <% if can? :read, Company %><li><%= link_to 'My Company', company_path %></li><% end %>
   <li><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></li>
 </ul>

@@ -73,7 +73,7 @@ class EmployeesController < EmployeeBaseController
   end
   
   def user_params
-    params.require(:user).permit(:name, :email, :active)
+    params.require(:user).permit(:name, :email, :active, :admin)
   end
   
   def option_params

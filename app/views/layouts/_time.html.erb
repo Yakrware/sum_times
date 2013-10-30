@@ -1,0 +1,10 @@
+<style>
+  .hour { -webkit-transform: rotate(<%= hour_angle %>deg); -moz-transform: rotate(<%= hour_angle %>deg); }
+  .min { -webkit-transform: rotate(<%= minute_angle %>deg); -moz-transform: rotate(<%= minute_angle %>deg); }
+  .sec { -webkit-transform: rotate(<%= second_angle %>deg); -moz-transform: rotate(<%= second_angle %>deg); }
+</style>
+<time datetime="<%= Time.now.strftime('%H:%M:%S') %>">
+  <span class="hour"><b><%= Time.now.hour %></b></span>
+  <span class="min"><b><%= Time.now.min %></b></span>
+  <span class="sec"><b><%= Time.now.sec %></b></span>
+</time>

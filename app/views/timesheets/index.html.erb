@@ -1,6 +1,9 @@
-<h2>Timesheets to accept</h2>
-<ul>
-  <% @timesheets.each do |timesheet| %>
-    <li><%= link_to timesheet.user.name, timesheet_path(timesheet) %></li>
-  <% end %>
-</ul>
+<h2>Pay Period: </h2>
+
+<% @users.each do |user| %>
+  <p>
+    <strong><%= link_to user.name, timesheet_path(user.id) %></strong><br/>
+    <strong>Total Hours:</strong> <%= number_with_precision user.workdays.map{|wd| wd.hours.reject{|h| h['end'].nil? || h['start'].nil? || h['type'] == 'scheduled'}
+                                                                     .map{|h| h['end'] - h['start'] }.sum }.sum, precision: 2 %>
+  </p>
+<% end %>

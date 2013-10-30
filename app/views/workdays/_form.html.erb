@@ -12,7 +12,7 @@
       <div class="remove-break btn btn-sm btn-danger btn-block">Remove Break</div>
     </div>
     <div class="col-xs-8">
-      <div class="slider-intervals" data-slider-min="5" data-slider-max="21" data-slider-intervals="<%= workday.hours.map{|h| [h['start'], h['end']]} %>"></div>
+      <%= render :partial => 'common/slider', locals: {editable: true, workday: workday} %>
     </div>
     <div class="col-xs-2">
       <div class="add-break btn btn-sm btn-primary btn-block">Add Break</div>

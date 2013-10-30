@@ -10,15 +10,10 @@ SumTimes::Application.routes.draw do
   resources :lates
   resources :leaves
   resources :employees
-  resources :timesheets, :only => [:index, :show, :update] do
-    get 'current', on: :collection
-    member do
-      put 'submit'
-      put 'accept'
-      delete 'reject'
-      put 'regenerate'
-    end
-  end
+  resources :timesheets, :only => [:index, :show]
+  
+  post 'punch_in' => 'punch_clock#in'
+  post 'punch_out' => 'punch_clock#out'
 
   resource :company, only: [:show, :edit, :update]
 

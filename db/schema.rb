@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131010160157) do
+ActiveRecord::Schema.define(version: 20131030000809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,27 +85,6 @@ ActiveRecord::Schema.define(version: 20131010160157) do
   create_table "supervisor_users", id: false, force: true do |t|
     t.integer "supervisor_id"
     t.integer "user_id"
-  end
-
-  create_table "timesheets", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "month"
-    t.integer  "supervisor_id"
-    t.date     "approval_date"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.boolean  "user_approved"
-    t.boolean  "supervisor_approved"
-    t.text     "schedule"
-    t.integer  "year"
-    t.float    "total_hours"
-    t.float    "worked_hours"
-    t.float    "holiday_hours"
-    t.float    "vacation_hours"
-    t.float    "sick_hours"
-    t.float    "admin_hours"
-    t.float    "unpaid_hours"
-    t.boolean  "ready_for_submission"
   end
 
   create_table "users", force: true do |t|

@@ -27,6 +27,26 @@ class Option < ActiveRecord::Base
     end
     self[:value] = val
   end
+  
+  def salaried?
+    value["wage"] == "salaried"
+  end
+  
+  def hourly?
+    value["wage"] == "hourly"
+  end
+  
+  def flex?
+    value["scheduling"] == "flex"
+  end
+  
+  def method_missing(meth, *args, &block)
+    if value.has_key? meth.to_s
+      value[meth.to_s]
+    else
+      super
+    end
+  end
 
   private
 
