@@ -43,7 +43,8 @@ class Ability
       can [:read, :update], Company, :id => user.company_id
       can :manage, Option, :company_id => user.company_id
       can :manage, Option, :user => { :company_id => user.company_id }
-      can :read, :timesheet
+      can :manage, :timesheet
+      can :manage, :schedule
     end
     
   end

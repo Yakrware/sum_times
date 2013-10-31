@@ -10,26 +10,13 @@ SumTimes::Application.routes.draw do
   resources :lates
   resources :leaves
   resources :employees
-  resources :timesheets, :only => [:index, :show]
   
   post 'punch_in' => 'punch_clock#in'
   post 'punch_out' => 'punch_clock#out'
 
+  resources :schedules, :only => [:index, :create, :update, :destroy]
+  resources :timesheets, :only => [:index, :show]
   resource :company, only: [:show, :edit, :update]
-
-  namespace :admin do
-    resources :holidays, :except => [:show]
-    resources :profiles
-    resources :supervisors, :only => [:index, :edit, :update, :destroy]
-    resources :leave_transactions, :only => [:new, :create]
-    resources :schedules, :except => [:index, :show]
-    resources :timesheets, :only => [:index, :show] do
-      collection do
-        post 'generate'
-      end
-    end
-    resources :accruals, :only => [:index, :new, :create]
-  end
 
   devise_for :admins
   devise_for :users, :controllers => {:registrations => "users/registrations"}

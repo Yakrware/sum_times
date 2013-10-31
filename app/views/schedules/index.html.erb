@@ -1,0 +1,33 @@
+<h2>Scheduling</h2>
+<p>This allows an admin to set up a schedule for his company. It will display a full day with each "scheduled" user shown. Flex users will not be
+   shown. That user's current schedule and an indication will be shown if it's recurring. Add/Remove breaks will be controls for scheduling.
+   Activate/deactivate will send to create and destroy, all other changes to update.
+   Link to create a recurring schedule for a particular employee. Need an override in workdays create to have it create as scheduled if the
+   user does not select any days for the schedule to repeat on. Users will be updated immediately (no save button)</p>
+<% @users.each do |user| %>
+  <% workday = user.workdays.today.first %>
+  <div class="row">
+    <div class="col-sm-2">
+      <%= user.name %>
+    </div>
+    <div class="col-sm-2">
+      <% if workday.recurring? || workday.hours.any? {|h| h["type"] == "scheduled" } %>
+        <div class="btn btn-danger btn-block btn-xs">Deactivate</div>
+      <% else %>
+        <div class="btn btn-primary btn-block btn-xs">Activate</div>        
+      <% end %>
+    </div>
+    <div class="col-sm-2">
+      <div class="btn btn-warning btn-block btn-xs">Remove Break</div>
+    </div>
+    <div class="col-sm-3">
+      <%= render :partial => "common/slider", locals: {editable: !workday.recurring?, user: user, workday: workday} %>
+    </div>
+    <div class="col-sm-2">
+      <div class="btn btn-success btn-block btn-xs">Add Break</div>
+    </div>
+    <div class="col-sm-1">
+      <%= '<i class="icon-refresh"></i>'.html_safe if workday.recurring? %>
+    </div>
+  </div>
+<% end %>

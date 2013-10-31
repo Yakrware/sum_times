@@ -40,6 +40,10 @@ class Option < ActiveRecord::Base
     value["scheduling"] == "flex"
   end
   
+  def scheduled?
+    value["scheduling"] == "scheduled"
+  end
+  
   def method_missing(meth, *args, &block)
     if value.has_key? meth.to_s
       value[meth.to_s]
