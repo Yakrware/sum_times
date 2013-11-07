@@ -3,7 +3,7 @@ class WorkdaysController < EmployeeBaseController
     
   def index
     @date = (params[:date] || Date.today).to_date
-    @workdays = @workdays.scheduled_on_date(@date)
+    @workdays = @workdays.on_date(@date)
   end
   
   def own
@@ -15,9 +15,10 @@ class WorkdaysController < EmployeeBaseController
 
   def new
     user_id = params[:user_id] || current_user.id
+    user = current_user.company.users.find(user_id)
     params[:date] = (params[:date] || Date.today).to_date
     day = Workday.where(user_id: user_id).on_date(params[:date]).first
-    hours = day.nil? ? [] : day.hours
+    hours = day.nil? ? [{"start" => user.option.day_start, "end" => user.option.day_end}] : day.hours
     @workday = Workday.new(user_id: user_id, date: params[:date], hours: hours)
     authorize! :schedule, @workday
   end

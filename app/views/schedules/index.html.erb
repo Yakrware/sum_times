@@ -4,30 +4,31 @@
    Activate/deactivate will send to create and destroy, all other changes to update.
    Link to create a recurring schedule for a particular employee. Need an override in workdays create to have it create as scheduled if the
    user does not select any days for the schedule to repeat on. Users will be updated immediately (no save button)</p>
-<% @users.each do |user| %>
-  <% workday = user.workdays.today.first %>
-  <div class="row">
-    <div class="col-sm-2">
-      <%= user.name %>
-    </div>
-    <div class="col-sm-2">
-      <% if workday.recurring? || workday.hours.any? {|h| h["type"] == "scheduled" } %>
-        <div class="btn btn-danger btn-block btn-xs">Deactivate</div>
-      <% else %>
-        <div class="btn btn-primary btn-block btn-xs">Activate</div>        
-      <% end %>
-    </div>
-    <div class="col-sm-2">
-      <div class="btn btn-warning btn-block btn-xs">Remove Break</div>
-    </div>
-    <div class="col-sm-3">
-      <%= render :partial => "common/slider", locals: {editable: !workday.recurring?, user: user, workday: workday} %>
-    </div>
-    <div class="col-sm-2">
-      <div class="btn btn-success btn-block btn-xs">Add Break</div>
-    </div>
-    <div class="col-sm-1">
-      <%= '<i class="icon-refresh"></i>'.html_safe if workday.recurring? %>
-    </div>
-  </div>
-<% end %>
+<table class="scheduling-table">
+  <tbody>
+    <% @users.each do |user| %>
+      <% workday = user.workdays.today.first %>
+      <tr class="<%= workday && (workday.recurring? || workday.hours.any? {|h| h['type'] == 'scheduled' }) ? '' : 'disabled' %>" 
+          data-id="<%= user.id %>" >
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <span class="fa-stack deactivate-user" title="Deactivate Employee">
+            <i class="fa fa-user fa-stack-1x"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger"></i>
+          </span>
+          <i class="fa fa-user activate-user" title="Activate Employee"></i>
+          <i class="fa fa-minus-square remove-break" title="Remove Break"></i>
+        </td>
+        <td style="width:100%">
+          <%= render :partial => "common/slider", locals: {editable: true, user: user, workday: workday} %>
+        </td>
+        <td>
+          <i class="fa fa-plus-square add-break" title="Add Break"></i>
+          <%= '<i class="fa fa-refresh"></i>'.html_safe if workday && workday.recurring? %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :timesheets_to_accept, :through => :supervises, :source => :timesheets  
   belongs_to :company, autosave: true
   has_one :option, autosave: true, :dependent => :destroy
+  alias_method :option_original, :option
   
   accepts_nested_attributes_for :option
   
@@ -47,6 +48,10 @@ class User < ActiveRecord::Base
     self[:accrues_sick] || 8
   end
 
+  def option
+    self.option_original || self.build_option
+  end
+  
   protected
   def transaction_hours(category)
     self.leave_transactions.select('SUM(hours) as hours').where('date <= ?', Date.today).where(category: category).first[:hours] || 0

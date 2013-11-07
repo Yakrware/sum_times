@@ -17,7 +17,7 @@
       <% workdays.each do |workday| %>
         <td>
           <% unless workday.nil? %>
-            <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="icon-refresh" title="recurring"></i><% end %>
+            <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="fa fa-refresh" title="recurring"></i><% end %>
             <br/>
             <%= render :partial => 'common/slider', locals: {editable: false, workday: workday, user: current_user} %>
             <%= link_to 'edit', edit_workday_path(workday) if can?(:schedule, Workday) || !workday.recurring? %>

@@ -20,8 +20,8 @@
               <%= '<span class="label label-primary">admin</span>'.html_safe if user.admin? %>
             </td>
             <td>
-              <%= link_to '<i class="icon-edit" title="Edit"></i>'.html_safe, edit_employee_path(user) %>
-              <%= link_to '<i class="icon-remove" title="Remove Employee"></i>'.html_safe, employee_path(user), method: :delete, confirm: 'Are you sure you want to remove this employee? You will lose all of this user\'s history. Consider deactivating instead.' %>
+              <%= link_to '<i class="fa fa-edit" title="Edit"></i>'.html_safe, edit_employee_path(user) %>
+              <%= link_to '<i class="fa fa-remove" title="Remove Employee"></i>'.html_safe, employee_path(user), method: :delete, confirm: 'Are you sure you want to remove this employee? You will lose all of this user\'s history. Consider deactivating instead.' %>
             </td>
           </tr>
         <% end %>

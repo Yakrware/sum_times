@@ -1,3 +1,46 @@
 // Place all the styles related to the schedules controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.scheduling-table {
+  td {
+    white-space: nowrap;
+    padding: 5px;
+    vertical-align: bottom;
+    
+    &:first-child {
+      padding-left: 0px;
+    }
+    
+    &:last-child {
+      padding-right: 0px;
+    }
+  }
+  
+  i.fa {
+    cursor: pointer;
+  }
+  
+  .activate-user {
+    display:none;
+  }
+  
+  .deactivate-user {
+    font-size: 0.67em;
+  }
+  
+  tr.disabled {
+    color: #CCC;
+    
+    i.fa-user {
+      color: #333;
+    }
+    
+    .deactivate-user {
+      display: none;
+    }
+    
+    .activate-user {
+      display: inline;
+    }
+  }
+}

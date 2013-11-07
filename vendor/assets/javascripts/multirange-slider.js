@@ -44,20 +44,11 @@
       this._drawIntervals();
       
       if(this.showTip){ this.element.addClass('multirange-slider-showtip'); }
-        
-      if(!this.disabled){
-        
-        
-        setTimeout($.proxy(function(){
-          this.element.find('.multirange-slider-handle').tooltip('show');
-        }, this), 1);
-        
-        this.element.on('mousedown', '.multirange-slider-handle', $.proxy(this._dragStart, null, this));
-        $(document).on('mousemove', $.proxy(this._dragMove, null, this));
-        $(document).on('mouseup', $.proxy(this._dragEnd, null, this));
-      } else {
-        this.element.addClass('multirange-slider-disabled');
-      }
+      
+      this._mousedown = $.proxy(this._dragStart, null, this);
+      this._mousemove = $.proxy(this._dragMove, null, this);
+      this._mouseup = $.proxy(this._dragEnd, null, this);
+      !this.disabled ? this.enable() : this.disable();
       
       this.element.addClass('multirange-slider');
     }
@@ -70,7 +61,16 @@
         for(var i = 0; i < this.intervals.length; i ++){
           var interval = this._setIntervalCss($(range_markup), this.intervals[i][0], this.intervals[i][1]);
           interval.data('interval_index', i);
+          if(this.intervals[i][2]){
+            interval.addClass(this.intervals[i][2]);
+          }
           this.element.append(interval);
+        }
+        
+        if(!this.disabled){
+          setTimeout($.proxy(function(){
+            this.element.find('.multirange-slider-handle').tooltip('show');
+          }, this), 1);
         }
       },
       
@@ -117,6 +117,10 @@
       _dragEnd: function(slider, e){
         if(slider.drag_data.handle){
           slider.drag_data.handle = null;
+        
+          if(slider.element){
+            slider.element.trigger('change', [slider.value()]);
+          }
         }
       },
       
@@ -139,11 +143,11 @@
         this.intervals[i][1] = mid_low;
         this.intervals.push([mid_high, end]);
         this.intervals.sort(sortManyArray);
-        this._drawIntervals();
-          
-        setTimeout($.proxy(function(){
-          this.element.find('.multirange-slider-handle').tooltip('show');
-        }, this), 1);
+        this._drawIntervals();        
+        
+        if(this.element){
+          this.element.trigger('change', [this.value()]);
+        }
       },
       
       combineInterval: function(i){
@@ -160,14 +164,36 @@
         this.intervals.push([removed[0][0], removed[1][1]]);
         this.intervals.sort(sortManyArray);
         this._drawIntervals();
-        
-        setTimeout($.proxy(function(){
-          this.element.find('.multirange-slider-handle').tooltip('show');
-        }, this), 1);
+                
+        if(this.element){
+          this.element.trigger('change', [this.value()]);
+        }
       },
       
       value: function(){
         return this.intervals;
+      },
+      
+      enable: function(){
+        this.disabled = false;
+        this.element.on('mousedown', '.multirange-slider-handle', this._mousedown);
+        $(document).on('mousemove', this._mousemove);
+        $(document).on('mouseup', this._mouseup);
+        this.element.removeClass('multirange-slider-disabled');
+        setTimeout($.proxy(function(){
+          this.element.find('.multirange-slider-handle').tooltip('show');
+        }, this), 1)
+      },
+      
+      disable: function(){
+        this.disabled = true;
+        this.element.off('mousedown', '.multirange-slider-handle', this._mousedown);
+        $(document).off('mousemove', this._mousemove);
+        $(document).off('mouseup', this._mouseup);
+        this.element.addClass('multirange-slider-disabled');
+        setTimeout($.proxy(function(){
+          this.element.find('.multirange-slider-handle').tooltip('hide');
+        }, this), 1)
       }
     }
     
