@@ -1,15 +1,16 @@
-<h2>Scheduling</h2>
-<p>This allows an admin to set up a schedule for his company. It will display a full day with each "scheduled" user shown. Flex users will not be
-   shown. That user's current schedule and an indication will be shown if it's recurring. Add/Remove breaks will be controls for scheduling.
-   Activate/deactivate will send to create and destroy, all other changes to update.
-   Link to create a recurring schedule for a particular employee. Need an override in workdays create to have it create as scheduled if the
-   user does not select any days for the schedule to repeat on. Users will be updated immediately (no save button)</p>
+<h2>Schedule for <%= l @date, :format => :long %></h2>
+
+<div class="row">
+  <%= link_to "<< #{l @date - 1.day, :format => :long}", schedules_path(date: @date - 1.day) if @date > Date.today %>
+  <%= link_to "#{l @date + 1.day, :format => :long} >>", schedules_path(date: @date + 1.day), class: 'pull-right' %>
+</div>
+
 <table class="scheduling-table">
   <tbody>
     <% @users.each do |user| %>
-      <% workday = user.workdays.today.first %>
+      <% workday = user.workdays.on_date(@date).first %>
       <tr class="<%= workday && (workday.recurring? || workday.hours.any? {|h| h['type'] == 'scheduled' }) ? '' : 'disabled' %>" 
-          data-id="<%= user.id %>" >
+          data-user-id="<%= user.id %>" data-workday-id="<%= workday.id if workday %>" data-date="<%= @date %>" >
         <td>
           <%= user.name %>
         </td>
@@ -26,7 +27,8 @@
         </td>
         <td>
           <i class="fa fa-plus-square add-break" title="Add Break"></i>
-          <%= '<i class="fa fa-refresh"></i>'.html_safe if workday && workday.recurring? %>
+          <%= '<i class="fa fa-refresh" title="Recurring"></i>'.html_safe if workday && workday.recurring? %>
+          <%= link_to '<i class="fa fa-edit" title="Edit"></i>'.html_safe, edit_workday_path(workday), class: 'edit-workday' if workday %>
         </td>
       </tr>
     <% end %>

@@ -63,6 +63,17 @@ class Workday < ActiveRecord::Base
       end
     end
   end
+  
+  def set_hours(in_hours = [])
+    self.hours_will_change!
+    self.hours = []
+    self.hours_will_change!
+    in_hours.each do |h|
+      self.hours << {"start" => h[0], "end" => h[1], "type" => h[2]}
+    end
+    self.hours_will_change!
+    self.hours.sort_by!{|h| h["start"]}
+  end
 
   private
 

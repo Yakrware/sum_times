@@ -87,6 +87,9 @@ GEM
     highline (1.6.19)
     hike (1.2.3)
     i18n (0.6.5)
+    jbuilder (1.5.2)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.2.0)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -211,6 +214,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   figaro
+  jbuilder
   jquery-rails
   momentjs-rails
   parallel588-bootstrap-timepicker-rails
