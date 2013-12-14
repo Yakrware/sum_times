@@ -26,3 +26,30 @@ require "capistrano3/unicorn"
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
+
+namespace :deploy do
+  task :setup do
+    on roles(:all) do |host|
+    end
+  end
+  
+  after :setup, :deploy_directory do
+    if test("[ -w #{fetch(:deploy_to)} ]")
+      info "#{fetch(:deploy_to)} is writable on #{host}"
+    else
+      info "#{fetch(:deploy_to)} is not writable on #{host}, creating"
+      # create directory
+      sh "mkdir -pv #{fetch(:deploy_to)}/shared/config"
+    end
+  end
+    
+  after :setup, :copy_shared_files do
+    fetch(:linked_files).each do |f|
+      if test("[ -f #{fetch(:deploy_to)}/shared/config/#{f}]")
+      else
+        upload!("config/#{f}", "#{fetch(:deploy_to)}/shared/config/#{f}]")
+      end
+    end
+  end
+    
+end

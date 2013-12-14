@@ -16,3 +16,4 @@
 /config/deploy/production.rb
 /old_cap
 *~
+/config/application.yml

@@ -1,8 +1,9 @@
 set :application, 'sumtimes'
+
+set :scm, :git
 set :repo_url, 'git://github.com/Yakrware/sum_times.git'
 
-# set :deploy_to, '/home/ubuntu/#{fetch(:application)}'
-# set :scm, :git
+set :deploy_to, "/home/ubuntu/#{fetch(:application)}"
 
 # set :format, :pretty
 # set :log_level, :debug

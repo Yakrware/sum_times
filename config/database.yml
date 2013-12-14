@@ -1,10 +1,2 @@
-development:
-  adapter: postgresql
-  database: sumtimes_development
-
-test: &TEST
-  adapter: postgresql
-  database: sumtimes_test
-
-cucumber:
-  <<: *TEST
+adapter: postgresql
+database: ENV['DATABASE_NAME']
