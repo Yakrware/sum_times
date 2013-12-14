@@ -17,8 +17,9 @@
           step: 1,
           displayFormat: function(val){ return val; },
           showTip: true
-        };
-    
+        },
+        unique_number = 0;
+        
     function between(val, min, max){
       return Math.max(min, Math.min(max, val));
     }
@@ -28,9 +29,10 @@
     }
     
     var MultirangeSlider = function(element, options){
-     this.element = $(element);
+      this.element = $(element);
+      this.unique_number = ++unique_number;
      
-     $.extend(this, options, {
+      $.extend(this, options, {
         min: this.element.data('slider-min'),
         max: this.element.data('slider-max'),
         intervals: this.element.data('slider-intervals'),
@@ -133,17 +135,25 @@
         this._drawIntervals();
       },
       
-      splitInterval: function(i){
-        i = (i && i !== 0) ? i : this.intervals.length - 1;
-        var start = this.intervals[i][0],
-            end = this.intervals[i][1],
-            mid_low = this._snapValue((end + start)/2),
-            mid_high = mid_low + this.step;
-            
-        this.intervals[i][1] = mid_low;
-        this.intervals.push([mid_high, end]);
-        this.intervals.sort(sortManyArray);
-        this._drawIntervals();        
+      splitInterval: function(i, type){
+        if(this.intervals.length === 0){
+          var start = Math.min(this.max, this.min + 3),
+              end = Math.min(this.max, start + 8);
+          this.intervals.push(_.compact([start, end, type]));
+        }
+        else{
+          i = (i && i !== 0) ? i : this.intervals.length - 1;
+          var start = this.intervals[i][0],
+              end = this.intervals[i][1],
+              mid_low = this._snapValue((end + start)/2),
+              mid_high = mid_low + this.step;
+              
+          this.intervals[i][1] = mid_low;
+          this.intervals.push(_.compact([mid_high, end, type]));
+          this.intervals.sort(sortManyArray);
+        }
+        
+        this._drawIntervals();
         
         if(this.element){
           this.element.trigger('change', [this.value()]);
@@ -152,17 +162,20 @@
       
       combineInterval: function(i){
         if(this.intervals.length < 2){
-          return; // we don't have any breaks to remove
+          // we don't have any breaks to remove so... remove it all
+          this.intervals.pop();
+        }
+        else{
+          i = (i && i !== 0) ? i : this.intervals.length - 1;
+          if(!this.intervals[i - 1]){
+            i = i + 1;
+          }
+          
+          var removed = this.intervals.splice(i-1, 2);
+          this.intervals.push([removed[0][0], removed[1][1], removed[0][2]]);
+          this.intervals.sort(sortManyArray);
         }
         
-        i = (i && i !== 0) ? i : this.intervals.length - 1;
-        if(!this.intervals[i - 1]){
-          i = i + 1;
-        }
-        
-        var removed = this.intervals.splice(i-1, 2);
-        this.intervals.push([removed[0][0], removed[1][1]]);
-        this.intervals.sort(sortManyArray);
         this._drawIntervals();
                 
         if(this.element){
@@ -176,9 +189,9 @@
       
       enable: function(){
         this.disabled = false;
-        this.element.on('mousedown', '.multirange-slider-handle', this._mousedown);
-        $(document).on('mousemove', this._mousemove);
-        $(document).on('mouseup', this._mouseup);
+        this.element.on('mousedown.' + this.unique_number, '.multirange-slider-handle', this._mousedown);
+        $(document).on('mousemove.' + this.unique_number, this._mousemove);
+        $(document).on('mouseup.' + this.unique_number, this._mouseup);
         this.element.removeClass('multirange-slider-disabled');
         setTimeout($.proxy(function(){
           this.element.find('.multirange-slider-handle').tooltip('show');
@@ -187,9 +200,9 @@
       
       disable: function(){
         this.disabled = true;
-        this.element.off('mousedown', '.multirange-slider-handle', this._mousedown);
-        $(document).off('mousemove', this._mousemove);
-        $(document).off('mouseup', this._mouseup);
+        this.element.off('mousedown.' + this.unique_number, '.multirange-slider-handle', this._mousedown);
+        $(document).off('mousemove.' + this.unique_number, this._mousemove);
+        $(document).off('mouseup.' + this.unique_number, this._mouseup);
         this.element.addClass('multirange-slider-disabled');
         setTimeout($.proxy(function(){
           this.element.find('.multirange-slider-handle').tooltip('hide');

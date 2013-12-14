@@ -1,2 +1,29 @@
 //= require multirange-slider
 
+.multirange-slider{
+  .multirange-slider-range{
+    &.leave, &.vacation{
+      background: #CC9;
+      .multirange-slider-handle{
+        background: #B95;
+      }
+    }
+    
+    &.sick{
+      background: #9B4;
+      .multirange-slider-handle{
+        background: #693;
+      }
+    }
+    
+    
+    &.unpaid{
+      background: #C34;
+      border-color: #333;
+      .multirange-slider-handle{
+        background: #963;
+        border-color: #333;
+      }
+    }
+  }
+}

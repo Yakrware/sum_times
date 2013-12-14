@@ -1,32 +1,30 @@
-<h2>Unapproved Leave Requests</h2>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Dates</th>
-      <th>Category</th>
-      <th>Reason</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<h2>My Time Off</h2>
+<% @user.available_hours.each do |k, v| %>
+<p><strong><%= k == 'pto' ? k.upcase : k.titleize %>:</strong> <%= t :hours, count: v %></p>
+<% end %>
+<p>
+  <% if @past %>
+    <%= link_to 'Back to Future Leave', leaves_path %>
+  <% else %>
+    <%= link_to 'View Leave History', leaves_path(:past => true)  %>
+  <% end %>
+</p>
+<table class="leave-table <%= params[:past].present? ? '' : 'editable' %>">
   <tbody>
-    <% @leaves.each do |leave| %>
-      <tr>
-        <td><%= leave.user.name %></td>
-        <td><%= "#{leave.hours} hours - #{l leave.start_date, :format => :short}#{leave.end_date.nil? ? '' : (' - ' + l(leave.end_date, :format => :short))}" %></td>
-        <td><%= leave.category %></td>
-        <td><%= leave.reason %></td>
-        <td><%= form_for leave, html: {:style => "margin: 0px;"} do |f| %>
-            <%= f.hidden_field :approved, :value => true %>
-            <%= f.submit 'Approve', :class => 'btn btn-success' %>
-            <% end %>
+    <% @workdays.each do |workday| %>
+      <tr data-workday="<%= workday.id %>">
+        <td><%= l workday.date, :format => :short %></td>
+        <td><%= %Q{<i class="fa fa-minus-square"></i>}.html_safe if !@past %></td>
+        <td class="expand"><%= render :partial => 'common/slider', locals: {workday: workday, editable: !@past} %></td>
+        <td>
+          <% if !@past %>
+            <i class="fa fa-plus-square"></i> 
+            <i class="fa fa-times"></i>
+          <% end %>
         </td>
-        <td><%= form_for leave, :method => :delete, html: {:style => "margin: 0px;"} do |f| %>
-            <%= f.submit 'Deny', :class => 'btn btn-danger', confirm: 'Are you sure you wish to deny this? The leave request will be deleted' %>
-            <% end %>
+        <td><%= t :hours, count: workday.total_hours('leave') %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= link_to 'Request New Leave', new_leave_path(user_id: current_user == @user ? nil : @user.id), class: 'btn btn-primary' %>

@@ -19,6 +19,8 @@ class CompaniesController < EmployeeBaseController
   
   protected
   def company_params
-    params.require(:company).permit(:name, option_attributes: {value: [:scheduling, :wage, :pay_period, :day_start, :day_end]})
+    params.require(:company).permit(:name, option_attributes: {value: [:scheduling, :wage, :pay_period, :day_start, :day_end, :leave_accrual_period, 
+                                                                       :leave_types => [], :leave_accrual => [:pto, :sick, :vacation, :unpaid],
+                                                                       :leave_initial => [:pto, :sick, :vacation, :unpaid] ]})
   end
 end

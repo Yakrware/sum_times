@@ -1,7 +1,33 @@
-<h2>Schedule</h2>
-<div style="text-align:center;">
-  <%= link_to '<< ' + l(@date - 1.month, :format => :month_name), schedule_path(current_user.id, month: (@date - 1.month).month, year: (@date - 1.month).year), class: 'pull-left' %>
-  <%= l @date, :format => :month_name %> <%= @date.year %>
-  <%= link_to l(@date + 1.month, :format => :month_name) + ' >>', schedule_path(current_user.id, month: (@date + 1.month).month, year: (@date + 1.month).year), class: 'pull-right' %>
-</div>
-<%= render :partial => 'calendar' %>
+<h2>My Schedule This Month</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sunday</th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workweeks.each do |workdays| %>
+      <tr>
+      <% workdays.each do |workday| %>
+        <td>
+          <% unless workday.nil? %>
+            <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="fa fa-refresh" title="recurring"></i><% end %>
+            <br/>
+            <%= render :partial => 'common/slider', locals: {editable: false, workday: workday, user: current_user} %>
+            <%= link_to 'edit', edit_workday_path(workday) if can?(:schedule, Workday) || !workday.recurring? %>
+            <%= link_to 'override', new_workday_path(date: workday.date) if can?(:schedule, Workday) && workday.recurring? %>
+          <% end %>
+        </td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Create New Schedule", new_workday_path if can? :schedule, Workday %>

@@ -1,0 +1,35 @@
+<%= form_for @workday, :url => leaves_path, :method => :post, html: { class: "form-horizontal leaves-form"} do |f| %>
+  <%= hidden_field_tag 'leave[user_id]', @workday.user_id %>
+  <div class="form-group">
+    <%= label_tag 'leave[date]', 'Date', class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
+      <%= text_field_tag 'leave[date]', @workday.date, data: {behavior: 'datepicker'}, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'leave[type]', 'Type', class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
+      <%= select_tag 'leave[type]', options_for_select(@workday.user.option.leave_types.map{|s| [s.titleize, s]}), class: 'form-control' %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <table class="leave-table">
+      <tbody>
+        <tr>
+          <td><%= l @date, :format => :day_of_week %></td>
+          <td><i class="fa fa-minus-square" title="Remove Break"></i></td>
+          <td class="expand"><%= render :partial => "common/slider", locals: {editable: true, user: @user, workday: @workday} %></td>
+          <td><i class="fa fa-plus-square" title="Remove Break"></i></td>
+          <td><%= t :hours, count: @workday.total_hours('leave') %></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="add-day-btn btn btn-primary">Add Day</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.submit 'Request Leave', class: 'btn btn-success' %>
+  </div>
+<% end %>

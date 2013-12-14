@@ -1,21 +1,2 @@
-<script>
-    $(document).on("focus", "[data-behavior='datepicker']", function(e){
-        $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 0, "autoclose": true});
-    });
-</script>
-
-<h2>Request Time Off</h2>
-<%= form_for @leave do |f| %>
-  <%= f.hidden_field :user_id %>
-  <%= f.label :category %>
-  <%= f.select :category, options_for_select(['', 'sick', 'vacation', 'admin', 'unpaid']) %>
-  <%= f.label :reason %>
-  <%= f.text_area :reason, rows: 4 %>
-  <%= f.label :hours %>
-  <%= f.text_field :hours %>
-  <%= f.label :start_date %>
-  <%= f.text_field :start_date, data: {behavior: 'datepicker'} %>
-  <%= f.label :end_date %>
-  <%= f.text_field :end_date, data: {behavior: 'datepicker'} %><br/>
-  <%= f.submit 'Submit Leave Request' %>
-<% end %>
+<h2>Request New Leave</h2>
+<%= render :partial => 'form' %>

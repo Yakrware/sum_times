@@ -1,6 +1,7 @@
 <ul class="nav nav-pills nav-stacked">
   <li><%= link_to '<strong>Sumtimes</strong>'.html_safe, root_path %></li>
-  <li><%= link_to 'My Schedule', own_workdays_path %></li>
+  <li><%= link_to 'My Schedule', show_workdays_path %></li>
+  <li><%= link_to 'Time Off', leaves_path %></li>
   <li><%= link_to 'My Profile', employee_path(current_user.id) %></li>
   <% if can? :read, :timesheet %><li><%= link_to 'Timesheets', timesheets_path %></li><% end %>
   <% if can? :read, :schedule %><li><%= link_to 'Schedules', schedules_path %></li><% end %>

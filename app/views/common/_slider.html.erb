@@ -2,4 +2,4 @@
 <div class="<%= editable ? 'slider-intervals' : 'hour-slider' %>" 
      data-slider-min="<%= user.option.day_start %>" 
      data-slider-max="<%= user.option.day_end %>" 
-     data-slider-intervals="<%= workday ? workday.hours.map{|h| [h['start'], h['end'] || h['start']]} : [] %>"></div>
+     data-slider-intervals="<%= workday ? workday.hours.map{|h| [h['start'], h['end'] || h['start'], h['type']].compact} : [] %>"></div>

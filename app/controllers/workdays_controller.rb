@@ -6,11 +6,10 @@ class WorkdaysController < EmployeeBaseController
     @workdays = @workdays.on_date(@date)
   end
   
-  def own
-    @workweeks = Workday.workmonth(current_user, params[:start])
-  end
-
   def show
+    @user = current_user
+    @user = User.find(params[:user_id]) if params[:user_id] && can?(:manage, Workday)
+    @workweeks = Workday.workmonth(@user, params[:start])
   end
 
   def new
@@ -28,7 +27,7 @@ class WorkdaysController < EmployeeBaseController
     authorize! :schedule, @workday
 
     if @workday.save
-      redirect_to own_workdays_path
+      redirect_to show_workdays_path
     else
       respond_with(@workday) do
         format.html {render 'new'}
@@ -44,7 +43,7 @@ class WorkdaysController < EmployeeBaseController
     authorize! :update, @workday
 
     if @workday.save
-      redirect_to own_workdays_path
+      redirect_to show_workdays_path
     else
       respond_with(@workday) do
         format.html {render 'new'}

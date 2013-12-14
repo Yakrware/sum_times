@@ -10,7 +10,11 @@ class Option < ActiveRecord::Base
     wage: 'salaried', # hourly
     pay_period: 'monthly', # weekly bi-weekly bi-monthly
     day_start: 6, # 0-23
-    day_end: 20, # 1-24
+    day_end: 20, # 1-24,
+    leave_accrual_period: 'monthly',
+    leave_types: ['vacation', 'sick', 'unpaid'],
+    leave_accrual: {vacation: 8, sick: 8},
+    leave_initial: {vacation: 0, sick: 0}
   }.with_indifferent_access
   
   def value

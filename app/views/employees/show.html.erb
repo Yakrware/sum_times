@@ -10,7 +10,7 @@
       <h3>Options</h3>
       <% @employee.option.value.each do |k, v| %>
         <p><strong><%= k.titleize %>:</strong>
-          <%= v %>
+          <%= option_value v %>
         </p>
       <% end %>
     <% end %>

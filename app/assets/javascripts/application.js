@@ -23,10 +23,21 @@
 $(function(){
   $('a[href$="' + window.location.pathname + '"]').closest('li').addClass('active')
   
+  function init(){
+    initTooltips();
+    initDatePickers();
+  }
+  
   function initTooltips(){
     $('[data-toggle=tooltip]').tooltip();
   }
   
-  _.defer(initTooltips);
-  $(document).on('page:change', initTooltips);
+  function initDatePickers(){
+    $(document).on("focus", "[data-behavior='datepicker']", function(e){
+        $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 0, "autoclose": true});
+    });
+  }
+  
+  _.defer(init);
+  $(document).on('page:change', init);
 });

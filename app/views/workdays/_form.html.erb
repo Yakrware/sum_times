@@ -1,9 +1,11 @@
 
 <%= form_for workday, html: {class: 'workday-form'} do |f| %>
   <%= f.hidden_field :user_id %>
-  <div class="form-group">
-    <%= f.label :date, 'Start Date' %>
-    <%= f.text_field :date, data: {behavior: 'datepicker'} %>
+  <div class="form-group row">
+    <%= f.label :date, 'Start Date', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.text_field :date, data: {behavior: 'datepicker'}, class: "form-control" %>
+    </div>
   </div>
   
   <h4>Hours</h4>
@@ -59,12 +61,4 @@
   <div>
     <%= f.submit %>
   </div>
-  
-  <script>
-    $(function(){
-      $(document).on("focus", "[data-behavior='datepicker']", function(e){
-          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 0, "autoclose": true});
-      });
-    });
-  </script>
 <% end %>

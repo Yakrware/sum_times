@@ -1,14 +1,14 @@
 SumTimes::Application.routes.draw do
   resources :holidays, :only => [:index]
 
-  resources :workdays do
+  resources :workdays, :except => [:show] do
     collection do
-      get 'own'
+      get 'show', as: 'show'
     end
   end
 
   resources :lates
-  resources :leaves
+  resources :leaves, :except => [:show]
   resources :employees
   
   post 'punch_in' => 'punch_clock#in'

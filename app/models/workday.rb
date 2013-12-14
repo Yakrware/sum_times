@@ -9,6 +9,7 @@ class Workday < ActiveRecord::Base
                                   GROUP BY w2.user_id 
                                  ) AS active USING (user_id, date)", :date => in_date]) ) }
   scope :today, -> { on_date(Date.today) }
+  scope :leave, -> { where(%Q[ '{"leave", "pto", "sick", "vacation", "unpaid"}' && pluck_from_json_array(hours, 'type') ]) }
   
   def self.workmonth(user, start)
     start ||= Date.today
@@ -74,7 +75,13 @@ class Workday < ActiveRecord::Base
     self.hours_will_change!
     self.hours.sort_by!{|h| h["start"]}
   end
-
+  
+  def total_hours(type = '')
+    hours.reject{|h| h['start'].nil? || h['end'].nil? }.select{|h| type == '' || h['type'] == type }.map do |h|
+      h['end'] - h['start']
+    end.sum
+  end
+  
   private
 
   def notify_timesheet

@@ -1,12 +1,13 @@
+<div class="option-form">
 <%= f.fields_for :option do |o| %>
   <div class="form-group form-inline">
     <%= o.label 'value[scheduling]', 'Scheduling' %> <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="Flex gives employees autonomy while scheduled does not. See labels for more description."></i><br/>
     <span class="radio">
-      <%= o.radio_button 'flex', 'flex', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'flex'} %> 
+      <%= o.radio_button 'flex', 'flex', {id: "#{model_name}_option_attributes_flex", name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'flex'} %> 
       <%= o.label 'flex', '<span data-toggle="tooltip" data-placement="auto" data-title="Flex scheduling allows employees to set their own schedules and keep their own times. This is appropriate for an office or location that keeps a regular schedule.">Flex</span>'.html_safe %>
     </span>
     <span class="radio">
-      <%= o.radio_button 'scheduled', 'scheduled', {name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'scheduled'} %> 
+      <%= o.radio_button 'scheduled', 'scheduled', {id: "#{model_name}_option_attributes_scheduled", name: "#{model_name}[option_attributes][value][scheduling]", checked: option.value['scheduling'] == 'scheduled'} %> 
       <%= o.label 'scheduled', '<span data-toggle="tooltip" data-placement="auto" data-title="Scheduled asks an admin to set all the schedules. This is appropriate for a company that keeps shifts.">Scheduled</span>'.html_safe %>
     </span>
   </div>
@@ -14,11 +15,11 @@
   <div class="form-group form-inline">
     <%= o.label 'value[wage]', 'Wage' %> <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="Wage combines with scheduling to determine how time is kept and reported."></i><br/>
     <span class="radio">
-      <%= o.radio_button 'salaried', 'salaried', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'salaried'} %> 
+      <%= o.radio_button 'salaried', 'salaried', {id: "#{model_name}_option_attributes_salaried", name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'salaried'} %> 
       <%= o.label 'salaried', '<span data-toggle="tooltip" data-placement="auto" data-title="Salaried Flex works as an exception system. Once a schedule is set, an employee doesn\'t need to modify it unless things change. Salaried Scheduled asks an admin to set a schedule for an employee.">Salaried</span>'.html_safe %>
     </span>
     <span class="radio">
-      <%= o.radio_button 'hourly', 'hourly', {name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'hourly'} %> 
+      <%= o.radio_button 'hourly', 'hourly', {id: "#{model_name}_option_attributes_hourly", name: "#{model_name}[option_attributes][value][wage]", checked: option.value['wage'] == 'hourly'} %> 
       <%= o.label 'hourly', '<span data-toggle="tooltip" data-placement="auto" data-title="Hourly only reports hours that an employee is punched in. Hourly Flex allows an employee to set and override a schedule or punch in/out. Hourly Scheduled allows an admin to set a schedule, but requires an employee to punch in/out.">Hourly</span>'.html_safe %>
     </span>
   </div>
@@ -27,9 +28,9 @@
   <div class="form-group">
     <%= o.label 'value[pay_period]', 'Pay Period' %><br/>
     <%= o.select 'value', [['Monthly (end of month)', 'monthly'], 
-                                ['Bi-monthly (15th and end)', 'bi-monthly'], 
-                                ['Bi-weekly (every other Friday)', 'bi-weekly'], 
-                                ['Weekly (Friday)', 'weekly']],
+                           ['Bi-monthly (15th and end)', 'bi-monthly'], 
+                           ['Bi-weekly (every other Friday)', 'bi-weekly'], 
+                           ['Weekly (Friday)', 'weekly']],
                  {selected: option.value['pay_period']}, {name: "#{model_name}[option_attributes][value][pay_period]", class: "form-control"} %>
   </div>
   
@@ -37,4 +38,57 @@
     <%= o.label 'day_start_and_end', 'Business Hours <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="The earliest and latest that anyone could possibly work"></i>'.html_safe %><br/>
     <div class="slider-intervals" data-slider-min="0" data-slider-max="24" data-slider-intervals="<%= [[ option.value['day_start'], option.value['day_end'] ]] %>"></div>
   </div>
+  
+  <div class="form-group form-inline leave-types">
+    <%= o.label 'value[leave_types]', 'Leave Types' %><br/>
+    <span class="checkbox">
+      <%= check_box_tag "#{model_name}[option_attributes][value][leave_types][]", 'pto', option.value['leave_types'] && option.value['leave_types'].include?('pto'), {id: "#{model_name}_option_attributes_leave_types_pto"} %>
+      <%= o.label 'leave_types_pto', 'PTO' %>
+    </span>
+    <span class="checkbox">
+      <%= check_box_tag "#{model_name}[option_attributes][value][leave_types][]", 'sick', option.value['leave_types'] && option.value['leave_types'].include?('sick'), {id: "#{model_name}_option_attributes_leave_types_sick"} %>
+      <%= o.label 'leave_types_sick', 'Sick' %>
+    </span>
+    <span class="checkbox">
+      <%= check_box_tag "#{model_name}[option_attributes][value][leave_types][]", 'vacation', option.value['leave_types'] && option.value['leave_types'].include?('vacation'), {id: "#{model_name}_option_attributes_leave_types_vacation"} %>
+      <%= o.label 'leave_types_vacation', 'Vacation' %>
+    </span>
+    <span class="checkbox">
+      <%= check_box_tag "#{model_name}[option_attributes][value][leave_types][]", 'unpaid', option.value['leave_types'] && option.value['leave_types'].include?('unpaid'), {id: "#{model_name}_option_attributes_leave_types_unpaid"} %>
+      <%= o.label 'leave_types_unpaid', 'Unpaid' %>
+    </span>
+  </div>
+  
+  <div class="form-group">
+    <%= o.label 'value[leave_accrual_period]', 'Leave Accrual Period <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="At which point additional leave time becomes available to employees"></i>'.html_safe %>
+    <%= o.select 'value', [['Yearly (first of year)', 'yearly'],
+                           ['Monthly (end of month)', 'monthly'], 
+                           ['Bi-monthly (15th and end)', 'bi-monthly'], 
+                           ['Bi-weekly (every other Friday)', 'bi-weekly'], 
+                           ['Weekly (Friday)', 'weekly'],
+                           ['Daily', 'daily']],
+                 {selected: option.value['leave_accrual_period']}, {name: "#{model_name}[option_attributes][value][leave_accrual_period]", class: "form-control"} %>
+  </div>
+  
+  <div class="form-horizontal form-group leave-accruals">
+    <%= o.label 'value[leave_accrual]', 'Leave Accrual Rates <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="The rate at which leave accrues for each period"></i>'.html_safe %>
+    
+    <% (option.value['leave_types'] || []).reject{|i| i == 'unpaid'}.each do |lt| %>
+    <div class="clearfix leave-accrual">
+      <div class="col-sm-3"><%= o.label "#{model_name}[option_attributes][value][leave_accrual][#{lt}]", lt %></div>
+      <div class="col-sm-9"><%= number_field_tag "#{model_name}[option_attributes][value][leave_accrual][#{lt}]", option.value['leave_accrual'] && option.value['leave_accrual'][lt] ? option.value['leave_accrual'][lt] : 0, class: 'form-control', min: 0, step: 'any' %></div>
+    </div>
+    <% end %>
+  </div>
+  
+  <div class="form-horizontal form-group leave-initials">
+    <%= o.label 'value[leave_initial]', 'Initial Leave <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="The leave that an employee starts with."></i>'.html_safe %>
+    <% (option.value['leave_types'] || []).reject{|i| i == 'unpaid'}.each do |lt| %>
+    <div class="clearfix leave-initial">
+      <div class="col-sm-3"><%= o.label "#{model_name}[option_attributes][value][leave_initial][#{lt}]", lt %></div>
+      <div class="col-sm-9"><%= number_field_tag "#{model_name}[option_attributes][value][leave_initial][#{lt}]", option.value['leave_initial'] && option.value['leave_initial'][lt] ? option.value['leave_initial'][lt] : 0, class: 'form-control', min: 0, step: 'any' %></div>
+    </div>
+    <% end %>
+  </div>
 <% end %>
+</div>
