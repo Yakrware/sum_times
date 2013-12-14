@@ -3,15 +3,14 @@
 # ------------------------------------------------------------------------------
 
 # Set your full path to application.
-app_path = "/home/talho/sumtimes/current"
+app_path = "/home/ubuntu/sumtimes/current"
 
 # Set unicorn options
-worker_processes 4
+worker_processes 2
 preload_app true
 timeout 180
 
 # Spawn unicorn master worker for user apps (group: apps)
-user 'talho', 'talho'
 
 # Fill path to your app
 working_directory app_path
