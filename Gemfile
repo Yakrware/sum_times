@@ -1,4 +1,4 @@
-#ruby=2.0.0@sumtimes
+#ruby=2.0.0-p353@sumtimes
 
 source 'https://rubygems.org'
 
@@ -15,7 +15,7 @@ gem 'devise'
 gem 'week_of_month'
 gem 'dynamic_form'
 gem "actionmailer-with-request", "~> 0.4.0"
-gem 'whenever'
+gem 'whenever', :require => false, :git => 'https://github.com/javan/whenever.git'
 
 gem 'underscore-rails'
 
@@ -50,9 +50,10 @@ end
 
 group :development do
   # Deploy with Capistrano
-  gem 'capistrano'
-  gem 'rvm-capistrano'
-  gem 'capistrano-unicorn'
+  gem 'capistrano', :require => false
+  gem 'capistrano-rails', :require => false
+  gem 'rvm1-capistrano3', :require => false
+  gem 'capistrano3-unicorn', :require => false
   gem "byebug"
 end
 
