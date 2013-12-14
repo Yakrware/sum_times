@@ -1,31 +1,41 @@
 class PunchClockController < EmployeeBaseController
+  before_filter :get_workday
+  
   def in
-    # close any open pairs in workday, open new pair
-    if @current_workday.nil?
-      # create workday
-      @current_workday = current_user.workdays.build date: Date.today, hours: []
-    end
-    
-    @current_workday.close_pairs
-    @current_workday.open_pair
+    @workday.close_pairs params[:time]
+    @workday.open_pair params[:time]
     respond_to do |format|
-      if @current_workday.save
+      if @workday.save
+        format.json { render 'workdays/on_date' }
         format.any { redirect_to :back }
       else
-        format.any { redirect_to :back, errors: @current_workday.errors.full_messages }
+        format.json { render :json => {errors: @workday.errors.full_messages} }
+        format.any { redirect_to :back, errors: @workday.errors.full_messages }
       end
     end
   end
   
   def out
-    # close any open paris in workday     
-    @current_workday.close_pairs
+    # close any open pairs in workday     
+    @workday.close_pairs params[:time]
     respond_to do |format|
-      if @current_workday.save
+      if @workday.save
+        format.json { render 'workdays/on_date' }
         format.any { redirect_to :back }
       else
-        format.any { redirect_to :back, errors: @current_workday.errors.full_messages }
+        format.json { render :json => {errors: @workday.errors.full_messages} }
+        format.any { redirect_to :back, errors: @workday.errors.full_messages }
       end
+    end
+  end
+  
+  protected
+  def get_workday
+    @workday = current_user.workdays.on_date(params[:date]).first
+    if @workday.nil?
+      @workday = current_user.workdays.build date: params[:date], hours: [] 
+    else
+      @workday = Workday.find(@workday.id) # defeat read-only record
     end
   end
 end

@@ -9,4 +9,4 @@ en:
       day_of_week: '%A'
   hours:
     one: '%{count} hour'
-    other: '%{count} hours '
+    other: '%{count} hours'

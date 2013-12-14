@@ -10,6 +10,9 @@ class CompaniesController < EmployeeBaseController
   def update
     respond_to do |format|
       if @company.update company_params
+        unless @company.option.persisted? # catch odd case where a new option isn't saving
+          @company.option.update company_params[:option_attributes]
+        end
         format.any { redirect_to company_path }
       else
         format.any { render 'edit', errors: @company.errors.full_messages }

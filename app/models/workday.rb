@@ -31,26 +31,26 @@ class Workday < ActiveRecord::Base
     workweeks
   end
   
-  def self.current_hour
-    return Time.now.hour + Time.now.min/60.0
+  def hours
+    self[:hours] || []
   end
-
+  
   def punched_in?
     !hours.last.nil? && hours.last['end'].blank?
   end
   
-  def close_pairs
+  def close_pairs(time)
     hours.each do |h|
       if h["end"].blank?
         hours_will_change!
-        h["end"] = Workday.current_hour 
+        h["end"] = time
       end
     end
   end
   
-  def open_pair
+  def open_pair(time)
     hours_will_change!
-    hours << {"start" => Workday.current_hour}
+    hours << {"start" => time}
   end
   
   def recurring?
@@ -77,8 +77,8 @@ class Workday < ActiveRecord::Base
   end
   
   def total_hours(type = '')
-    hours.reject{|h| h['start'].nil? || h['end'].nil? }.select{|h| type == '' || h['type'] == type }.map do |h|
-      h['end'] - h['start']
+    hours.reject{|h| h['start'].nil? || h['end'].nil? }.reject{|h| h['type'] == 'scheduled'}.select{|h| type == '' || h['type'] == type }.map do |h|
+      h['end'].to_f - h['start'].to_f
     end.sum
   end
   

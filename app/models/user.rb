@@ -10,14 +10,17 @@ class User < ActiveRecord::Base
 
   has_many :workdays do    
     def hours
-      ret = {}
-      self.each do |l|
-        l.hours.each do |h|
-          ret[h["type"]] = 0 if !ret[h["type"]]
-          ret[h["type"]] += h["end"].to_f - h["start"].to_f
+      @workday_hours ||= begin
+        ret = {}
+        self.each do |l|
+          l.hours.each do |h|
+            ret[h["type"]] = 0 if !ret[h["type"]]
+            next if h["end"].nil? || h["start"].nil?
+            ret[h["type"]] += h["end"].to_f - h["start"].to_f
+          end
         end
+        ret
       end
-      ret
     end
   end
   has_many :leaves

@@ -1,15 +1,35 @@
 <h2><%= @user.name %></h2>
+<h3>Pay Period: <%= l @date_start, :format => :short %> - <%= l @date_end, :format => :short %></h3>
+
 <table class="table">
+  <thead>
+    <th>Date</th>
+    <th>Total (hours)</th>
+    <th>Worked</th>
+    <% @user.option.leave_types.each do |lt| %>
+    <th><%= lt == 'pto' ? lt.upcase : lt.titleize %></th>
+    <% end %>
+  </thead>
   <tbody>
-    <% @user.workdays.each do |wd| %>
+    <% @user.workdays.sort_by!{|wd| wd.date}.each do |wd| %>
       <tr>
         <td><%= l wd.date, :format => :short %></td>
-        <td><%= wd.hours.reject{|h| h['end'].nil? || h['start'].nil? || h['type'] == 'scheduled'}.map{|h| h['end'] - h['start'] }.sum %></td>
+        <td><%= t :hours, count: number_with_precision(wd.total_hours, :strip_insignificant_zeros => true) %></td>
+        <td><%= t :hours, count: number_with_precision(wd.total_hours(nil), :strip_insignificant_zeros => true) %></td>
+        <% @user.option.leave_types.each do |lt| %>
+        <td><%= t :hours, count: number_with_precision(wd.total_hours(lt), :strip_insignificant_zeros => true) %></td>
+        <% end %>
       </tr>
     <% end %>
+    <tr>
+      <td><strong>Total Hours:<strong></td>
+      <td><strong><%= t :hours, count: number_with_precision(@user.workdays.hours.reject{|k,v| k == 'scheduled' }.values.sum, :strip_insignificant_zeros => true) %></strong></td>
+      <td><%= t :hours, count: number_with_precision(@user.workdays.hours[nil] || 0, :strip_insignificant_zeros => true) %></td>
+      <% @user.option.leave_types.each do |lt| %>
+      <td><%= t :hours, count: number_with_precision(@user.workdays.hours[lt] || 0, :strip_insignificant_zeros => true) %></td>
+      <% end %>
+    </tr>
   </tbody>
 </table>
-<p>
-  <strong>Total Hours:</strong> <%= number_with_precision @user.workdays.map{|wd| wd.hours.reject{|h| h['end'].nil? || h['start'].nil? || h['type'] == 'scheduled'}
-                                                                       .map{|h| h['end'] - h['start'] }.sum }.sum, precision: 2 %>
-</p>
+
+<%= link_to 'Back to Timesheets', timesheets_path(offset: @offset) %>

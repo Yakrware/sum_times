@@ -1,9 +1,27 @@
-<h2>Pay Period: </h2>
-
+<h2>Pay Period: <%= l @date_start, :format => :short %> - <%= l @date_end, :format => :short %></h2>
+<%= link_to '<< Previous', timesheets_path(offset: @offset - 1), class: 'btn btn-info' %> 
+<%= link_to 'Next >>', timesheets_path(offset: @offset + 1), class: 'btn btn-info pull-right' %>
 <% @users.each do |user| %>
-  <p>
-    <strong><%= link_to user.name, timesheet_path(user.id) %></strong><br/>
-    <strong>Total Hours:</strong> <%= number_with_precision user.workdays.map{|wd| wd.hours.reject{|h| h['end'].nil? || h['start'].nil? || h['type'] == 'scheduled'}
-                                                                     .map{|h| h['end'] - h['start'] }.sum }.sum, precision: 2 %>
-  </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= link_to user.name, timesheet_path(user.id, offset: @offset) %></th>
+        <th>Total (hours)</th>
+        <th>Worked Hours</th>
+        <% user.option.leave_types.each do |lt| %>
+        <th><%= lt == 'pto' ? lt.upcase : lt.titleize %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td><%= t :hours, count: number_with_precision(user.workdays.hours.reject{|k,v| k == 'scheduled' }.values.sum, :strip_insignificant_zeros => true) %></td>
+        <td><%= t :hours, count: number_with_precision(user.workdays.hours[nil] || 0, :strip_insignificant_zeros => true) %></td>
+        <% user.option.leave_types.each do |lt| %>
+        <td><%= t :hours, count: number_with_precision(user.workdays.hours[lt] || 0, :strip_insignificant_zeros => true) %></td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
 <% end %>

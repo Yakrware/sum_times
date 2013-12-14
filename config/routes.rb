@@ -4,6 +4,7 @@ SumTimes::Application.routes.draw do
   resources :workdays, :except => [:show] do
     collection do
       get 'show', as: 'show'
+      get 'on_date/:date', action: 'on_date', as: 'on_date'
     end
   end
 

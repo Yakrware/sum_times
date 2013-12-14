@@ -28,6 +28,10 @@
       return a[0] - b[0];
     }
     
+    $(document).on('mouseenter', '.multirange-slider .multirange-slider-handle', function(){
+      $(this).closest('.multirange-slider-range').tooltip('hide');
+    });
+    
     var MultirangeSlider = function(element, options){
       this.element = $(element);
       this.unique_number = ++unique_number;
@@ -59,9 +63,9 @@
       constructor: MultirangeSlider,
       
       _drawIntervals: function(){
-        this.element.find('.multirange-slider-range').remove();
+        this.element.find('.multirange-slider-range').tooltip('hide').remove();
         for(var i = 0; i < this.intervals.length; i ++){
-          var interval = this._setIntervalCss($(range_markup), this.intervals[i][0], this.intervals[i][1]);
+          var interval = this._setIntervalCss($(range_markup), this.intervals[i][0], this.intervals[i][1], this.intervals[i][2]);
           interval.data('interval_index', i);
           if(this.intervals[i][2]){
             interval.addClass(this.intervals[i][2]);
@@ -76,7 +80,7 @@
         }
       },
       
-      _setIntervalCss: function(interval, start, end){
+      _setIntervalCss: function(interval, start, end, type){
         var $interval = $(interval),
             _start = between(start, this.min, this.max),
             _end = between(end, this.min, this.max),
@@ -85,9 +89,12 @@
             
         $interval.css({left: left, right: right});
         
-        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start)).tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
-        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end)).tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
-        
+        $interval.attr('data-original-title', (type ? type + ': ' : '') + this.displayFormat(start) + " - " + this.displayFormat(end) )
+                 .tooltip({html: true, animation: false, trigger: 'hover'});
+        $interval.find('.multirange-slider-handle-left').attr('data-original-title', this.displayFormat(start))
+                 .tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
+        $interval.find('.multirange-slider-handle-right').attr('data-original-title', this.displayFormat(end))
+                 .tooltip({trigger: this.showTip ? 'manual' : 'hover', html: true, animation: false});
         
         return $interval;
       },
@@ -109,7 +116,7 @@
         if(slider.drag_data.handle){
           var percent = (e.clientX - slider.drag_data.el_start)/(slider.drag_data.el_end - slider.drag_data.el_start);
           slider.intervals[slider.drag_data.interval_index][slider.drag_data.interval_side] = between(slider._snapValue(slider.min + percent*(slider.max-slider.min)).toFixed(2), slider.drag_data.min, slider.drag_data.max);
-          slider._setIntervalCss(slider.drag_data.handle.closest('.multirange-slider-range'), slider.intervals[slider.drag_data.interval_index][0], slider.intervals[slider.drag_data.interval_index][1]);
+          slider._setIntervalCss(slider.drag_data.handle.closest('.multirange-slider-range'), slider.intervals[slider.drag_data.interval_index][0], slider.intervals[slider.drag_data.interval_index][1], slider.intervals[slider.drag_data.interval_index][2]);
           slider.drag_data.handle.tooltip('fixTitle').tooltip('setContent');
           slider.drag_data.handle.closest('.multirange-slider-range').find('.multirange-slider-handle').tooltip('show');
           e.preventDefault();
@@ -133,6 +140,9 @@
       setIntervals: function(intervals){
         this.intervals = intervals;
         this._drawIntervals();
+        if(this.element){
+          this.element.trigger('change', [this.value()]);
+        }
       },
       
       splitInterval: function(i, type){

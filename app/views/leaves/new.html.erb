@@ -1,2 +1,18 @@
 <h2>Request New Leave</h2>
-<%= render :partial => 'form' %>
+<%= form_for @workday, :url => leaves_path, html: { class: "form-horizontal leaves-form"} do |f| %>
+  <%= hidden_field_tag 'leave[user_id]', @workday.user_id %>
+  <div class="form-group">
+    <%= label_tag 'leave[date]', 'Date', class: 'control-label col-sm-2' %>
+    <div class="col-sm-10">
+      <%= text_field_tag 'leave[date]', @workday.date, data: {behavior: 'datepicker'}, class: 'form-control' %>
+    </div>
+  </div>
+  
+  <%= render :partial => 'form', locals: {f: f} %>
+  
+  <div class="add-day-btn btn btn-primary">Add Day</div>
+  
+  <div class="form-group">
+    <%= f.submit 'Request Leave', class: 'btn btn-success' %>
+  </div>
+<% end %>

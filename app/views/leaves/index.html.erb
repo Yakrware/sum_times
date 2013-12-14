@@ -20,9 +20,11 @@
           <% if !@past %>
             <i class="fa fa-plus-square"></i> 
             <i class="fa fa-times"></i>
+          <% else %>
+            <%= link_to '<i class="fa fa-edit" title="Edit"></i>'.html_safe, edit_leave_path(workday.id) %>
           <% end %>
         </td>
-        <td><%= t :hours, count: workday.total_hours('leave') %></td>
+        <td><%= t :hours, count: workday.total_hours %></td>
       </tr>
     <% end %>
   </tbody>

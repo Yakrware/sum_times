@@ -113,7 +113,7 @@ $(function(){
   leaves_controller.prototype.addRanges = function(){
     // Add the ranges that the user has selected to the form via hidden fields.
     $('.slider-intervals').each(function(){
-      var hidden_field = $('<input type="hidden" name="leave[hours][]">'),
+      var hidden_field = $('<input type="hidden" name="leave[hours]' + ($('.edit-leaves').length > 0 ? '' : '[]' ) + '">'),
           selector_hours = $(this).multirange_slider('value');
       hidden_field.val( JSON.stringify( $.map( selector_hours, function(arr){ return {start: arr[0], end: arr[1], type: arr[2]}; }) ) );
       $(this).append(hidden_field);    
@@ -128,12 +128,14 @@ $(function(){
   leaves_controller.prototype.editLeave = function(){
     var $this = $(this),
         hours = $this.multirange_slider('value'),
-        id = $this.closest('tr').data('workday');
+        id = $this.closest('tr').data('workday'),
+        data = _.map(hours, function(arr){ return {start: arr[0], end: arr[1], type: arr[2]}; });
         
     $.ajax({
       type: 'PUT',
+      contentType: "application/json; charset=utf-8",      
       url: '/leaves/' + id + '.json',
-      data: $.map(hours, function(arr){ return {start: arr[0], end: arr[1], type: arr[2]}; })
+      data: JSON.stringify({leave: {hours: data}})
     });
   }
   

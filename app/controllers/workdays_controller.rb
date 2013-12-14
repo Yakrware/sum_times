@@ -11,6 +11,13 @@ class WorkdaysController < EmployeeBaseController
     @user = User.find(params[:user_id]) if params[:user_id] && can?(:manage, Workday)
     @workweeks = Workday.workmonth(@user, params[:start])
   end
+  
+  def on_date
+    @user = current_user
+    @user = User.find(params[:user_id]) if params[:user_id] && can?(:manage, Workday)
+    @date = params[:date].to_date
+    @workday = @user.workdays.on_date(@date).first
+  end
 
   def new
     user_id = params[:user_id] || current_user.id

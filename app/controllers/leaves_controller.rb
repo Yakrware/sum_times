@@ -7,7 +7,7 @@ class LeavesController < EmployeeBaseController
     @past = params[:past].present?
     
     @date = (params[:date] || Date.today).to_date
-    @workdays = @workdays.leave
+    @workdays = @workdays.order(:date).leave
     if(@past)
       @workdays = @workdays.where("date < ?", @date)
     else
@@ -29,7 +29,10 @@ class LeavesController < EmployeeBaseController
       hours = @workday.nil? ? [] : @workday.hours
       @workday = @user.workdays.build(date: @date, hours: hours)
     end
-    @workday.hours.each{|h| h['type'] = 'leave'}
+    @workday.hours.each{|h| h['type'] = @user.option.leave_types.first}
+  end
+  
+  def edit
   end
   
   def create
@@ -42,7 +45,7 @@ class LeavesController < EmployeeBaseController
     
     # loop through hour sets
     leave_params[:hours].each.with_index do |hours, i|
-      next if hours.blank?
+      next if hours.blank? || hours == '[]'
       # check each workday
       workday = @user.workdays.on_date(date + i.days).first
       # create new ones if required
@@ -64,6 +67,8 @@ class LeavesController < EmployeeBaseController
     @workday.save
     
     respond_to do |format|
+      format.json { render :json => {} }
+      format.html { redirect_to leaves_path(past: true) }
       format.any { render :nothing => true }
     end
   end
@@ -73,6 +78,7 @@ class LeavesController < EmployeeBaseController
         
     respond_to do |format|
       format.html { redirect_to leaves_path }
+      format.json { render :json => {} }
       format.any { render :nothing => true }
     end
   end
@@ -80,6 +86,8 @@ class LeavesController < EmployeeBaseController
   private
     
   def leave_params
-    params.require(:leave).permit(:date, :type, :user_id, :hours => [])
+    params.require(:leave).permit(:date, :type, :user_id).tap do |whitelist|
+      whitelist[:hours] = params[:leave][:hours]
+    end
   end
 end
