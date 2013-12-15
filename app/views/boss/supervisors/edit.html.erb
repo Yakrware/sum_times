@@ -1,7 +1,0 @@
-<h2>Add supervisors for <%= @user.name %></h2>
-
-<%= form_for @user, :url => admin_supervisor_path(@user.id), :method => :put do |f| %>
-  <%= f.label :supervisors %>
-  <%= f.collection_select :supervisors, @supervisors, :id, :name, {}, {:multiple => true, :name => 'user[supervisors][]'} %><br/>
-  <%= f.submit %>
-<% end %>

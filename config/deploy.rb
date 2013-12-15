@@ -22,10 +22,10 @@ set :rvm1_ruby_version, '2.0.0-p353'
 namespace :deploy do  
   desc 'Restart application'
   task :restart do
+    invoke 'unicorn:restart'
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
-      invoke 'unicorn:restart'
     end
   end
 
