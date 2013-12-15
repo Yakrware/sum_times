@@ -24,14 +24,12 @@ gem 'cancan'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'uglifier'
-  gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
-  gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
-  gem 'bootstrap-datepicker-rails'
-  gem 'momentjs-rails'
-end
+gem 'sass-rails'
+gem 'uglifier'
+gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
+gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
+gem 'bootstrap-datepicker-rails'
+gem 'momentjs-rails'
 
 gem 'jquery-rails'
 
