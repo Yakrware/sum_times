@@ -1,2 +1,12 @@
-adapter: postgresql
-database: ENV['DATABASE_NAME']
+all: &ALL
+  adapter: postgresql
+  database: ENV['DATABASE_NAME']
+  
+production: 
+  <<: *ALL
+  
+development: 
+  <<: *ALL
+  
+test: 
+  <<: *ALL

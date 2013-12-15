@@ -16,11 +16,10 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/sys
 set :keep_releases, 5
 
 set :rvm1_ruby_version, '2.0.0-p353'
-before 'deploy', 'rvm1:install:rvm'  # install/update RVM
-before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
+#before 'deploy', 'rvm1:install:rvm'  # install/update RVM
+#before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
 
-namespace :deploy do
-
+namespace :deploy do  
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -38,7 +37,19 @@ namespace :deploy do
       # end
     end
   end
-
+  
+  namespace :check do
+    task :linked_files => shared_path.join('config/application.yml')
+  end
+  
   after :finishing, 'deploy:cleanup'
 
+end
+
+remote_file shared_path.join('config/application.yml') => 'config/application.yml', roles: :app
+
+file 'config/application.yml' do |t|
+  on roles(:app) do |host|
+    upload! t.name, shared_path.join(t.name)
+  end
 end
