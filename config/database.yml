@@ -1,6 +1,6 @@
 all: &ALL
   adapter: postgresql
-  database: ENV['DATABASE_NAME']
+  database: <%= ENV['DATABASE_NAME'] %>
   
 production: 
   <<: *ALL
