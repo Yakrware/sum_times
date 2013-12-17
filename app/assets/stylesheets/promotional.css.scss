@@ -1,0 +1,74 @@
+@mixin offset-border-box{
+  border: 1px #AAA solid;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px #888888;
+  background: #FFF;
+}
+
+.promotional-body{
+  &>div{
+    margin-left: -70px;
+    margin-right: -70px;
+    padding: 80px 70px 40px;
+    min-height: 900px;
+  }
+  
+  #devise{
+    background: image-url("brushed.png") repeat #DDD;
+  
+    .headline{
+      @include offset-border-box;
+      padding: 10px 20px 70px;
+      min-height: 400px;
+      font-size: 2em;
+      
+      h1{
+        font-size: 2em;
+      }
+    }
+  }
+  
+  #about{
+    background: #2BF;
+    box-shadow: 0px 1px 2px 2px #888888;
+  }
+  
+  #features{
+  }
+  
+  #pricing{
+    background: image-url("brushed.png") repeat #DDD;
+    box-shadow: 0px 0px 2px 1px #888888;
+    
+    &>div.row>div>div{
+      @include offset-border-box;
+      min-height: 350px;
+      padding: 30px 20px;
+      text-align: center;
+      
+      .money{
+        font-size: 2em;
+        font-weight: bold;
+        color: #251;
+      }
+      
+      .money.free{
+        color: #6D6
+      }
+      
+      &.active{
+        position: relative;        
+        
+        &:before{
+          content: 'current phase:';
+          position: absolute;
+          left: 20%;
+          font-weight: bold;
+          color: #A33;
+          font-size: 0.8em;
+          margin-top: -0.8em;
+        }
+      }
+    }
+  }
+}

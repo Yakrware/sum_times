@@ -8,13 +8,44 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require bootstrap
  *= require bootstrap-timepicker
  *= require bootstrap-datepicker
+ *= require_self
  *= require_tree .
  */
  
 body{
-  padding: 20px 0px 0px;
+  padding: 0;
+  margin: 0;
+}
+
+.body-container, .navbar-fixed-top, .page-footer{
+  padding-left: 70px;
+  padding-right: 70px;
+}
+
+h1{
+  font-size: 3em;
+}
+
+h2{
+  font-size: 2.5em;
+}
+
+h3{
+  font-size: 2.0em;
+}
+
+h4{
+  font-size: 1.5em;
+}
+
+.page-footer{
+  padding: 20px 70px;
+  width: 100%;
+  
+  .copy{
+    font-size: 0.8em;
+  }
 }

@@ -26,11 +26,12 @@ gem 'cancan'
 # in production environments by default.
 gem 'sass-rails'
 gem 'uglifier'
+
 gem 'bootstrap-sass', :git => 'https://github.com/thomas-mcdonald/bootstrap-sass.git'
 gem 'parallel588-bootstrap-timepicker-rails', :require => 'bootstrap-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'momentjs-rails'
-
+gem "flowtype-rails"
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password

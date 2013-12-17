@@ -1,5 +1,7 @@
 <h2>Sign up</h2>
 
+<p>If you are an employee, please ask your supervisor to create a user account through the admin interface for you. This page is used to register a new company.</p>
+
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
@@ -36,7 +38,6 @@
         <%= label_tag 'company_name', 'Company Name' %>
         <%= text_field_tag 'company[name]', defined?(resource.company) && !resource.company.blank? ? resource.company.name : '', class: 'form-control' %>
       </div>
-      <p class="help-block">If you are an employee, please ask your supervisor to create a user account through his interface for you.</p>
     </div>
   </div>
 <% end %>

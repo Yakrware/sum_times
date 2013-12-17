@@ -5,3 +5,4 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 SumTimes::Application.config.secret_token = ENV['RAILS_SECRET_TOKEN']
+SumTimes::Application.config.secret_key_base = ENV['RAILS_SECRET_KEY_BASE']

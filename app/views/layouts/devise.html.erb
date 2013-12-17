@@ -1,5 +1,124 @@
+<% content_for :main_top do %>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to 'Sumtimes', root_path, class: 'navbar-brand' %>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Sign In', (request.path == new_user_session_path ? '' : new_user_session_path) + '#devise', class: "scroll-link" %></li>
+          <li><a href='#about' class="scroll-link">About</a></li>
+          <li><a href='#features' class="scroll-link">Features</a></li>
+          <li><a href='#pricing' class="scroll-link">Pricing</a></li>
+          <li><%= link_to 'Register', (request.path == new_user_registration_path ? '' : new_user_registration_path) + '#devise', class: "scroll-link" %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <% content_for :main_body do %>
-  <%= yield %>
+  <div class="promotional-body">
+    <div id="devise">
+      <%= yield %>
+    </div>
+    <div id="about" class="flow-normal">
+      <h2>About</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Sumtimes started as a quick project for a previous place of employ, a small non-profit. We
+             needed a digital way of tracking monthly timesheets as well as leave requests. Excel had
+             served that purpose previously but had its own challenges and issues. The options on the 
+             market ranged from too expensive and complex for our needs to too old to be useful. The first
+             version of sumtimes was developped as an open-source 2-week prototype and significantly 
+             reduced the time that our company spent handling payroll and leave-related tasks.</p>
+        </div>
+        <div class="col-md-6">
+          <p>This is the 2nd generation version of Sumtimes, developed from the ground up to be a 
+             multi-tennant service. It's still open source, but this version is hosted here for your
+             convenience.</p>
+          <p>Sumtimes is perfect for small businesses of 5-30 employees who still keep their times either
+             on paper or in Excel. It will reduce the amount of time spent per week managing timesheets
+             and leave requests as well as adding tracking and archiving of time history.</p>
+        </div>
+      </div>
+    </div>
+    <div id="features" class="flow-small">
+      <h2>Features</h2>
+      <div>
+        <div class="row">
+          <div class="col-sm-6">
+            <h3>Flexible Time Tracking</h3>
+            <p>Through a combination of how your employees are scheduled and paid, you will find the best
+               way to handle your employee hours</p>
+            <h4>Flex Time and Salaried Pay</h4>
+            <p>When you combine flex scheduling and salaried payment, you will be using exception-based
+               time tracking. Employees only need to interact with the system when something is different
+               about a day such as taking leave or arriving late. This is good for offices and other 8-5
+               type jobs.</p>
+          </div>
+          <div class="col-sm-6">
+            <h4>Flex Time and Hourly Pay</h4>
+            <p>When you combine Flex and Hourly, employees are asked to punch in and out while they work.
+               This is good for workshops and other service providers where employees know the times that
+               they will be working</p>
+            <h4>Scheduled Time</h4>
+            <p>Scheduled time allows a company administrator to set the time that the employee is expected
+               to work. Scheduling would be used for companies that work in shifts. Employees under a scheduled company
+               can be either salaried or hourly. This is good for restaurants, retail, or IT support</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>Leave</h3>
+          <p>Sumtimes contains options to support just about any combination of paid-time-off that your
+             company might need. The accrual periods and amounts and the initial leave times are configurable
+             on a per-company and per-user basis.</p>
+        </div>
+        <div class="col-sm-6">
+          <h3>Timesheets</h3>
+          <p>Pay period is configurable based on when your company sends payments. At the end of every pay
+             period, a short-form timesheet is mailed to your company admins. Detailed timesheets are also
+             available.<p>
+        </div>
+      </div>
+    </div>
+    <div id="pricing" class="flow-normal">
+      <h2>Pricing</h2>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="active">
+            <h3>Alpha</h3>
+            <p class="money free">FREE!</p>
+            <p>For the duration of the alpha-testing phase, Sumtimes will be completely free.</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div>
+            <h3>Beta</h3>
+            <p><span class="money">$2</span>/user</p>
+            <p>During the Beta period, Sumtimes will cost $2 per user per month.</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div>
+            <h3>Live</h3>
+            <p><span class="money">$4</span>/user</p>
+            <p>Once we go live, Sumtimes will cost $4 per user per month. Any alpha or beta testers
+               as well as non-profit organizations will recieve the service for half off, $2 per user 
+               per month.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
 
 <%= render :template => 'layouts/application' %>
