@@ -29,6 +29,9 @@ $(function(){
     initTooltips();
     initDatePickers();
     initFlow();
+    
+    // Run google analytics
+    ga('send', 'pageview');
   }
   
   function initTooltips(){
