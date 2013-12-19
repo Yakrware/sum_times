@@ -1,16 +1,18 @@
 #SumTimes
 
+**Commercial Implementation:** https://sumtimes.co
+
 [![Build Status](https://travis-ci.org/Yakrware/sum_times.png)](https://travis-ci.org/Yakrware/sum_times)
 
 ##Purpose
 
 SumTimes is an exception-based time tracking and scheduling tool intended for small teams and businesses operating under
-flex time schedules. The intent is to build a simple, flexible way to generate timesheets for businesses that are too
-small for larger trackers and don't need by-hour tracking.
+flex time schedules. The intent is to build a simple, flexible way to generate timesheets for businesses that don't need
+the additional .
 
 ##Installation
 
-Sumtimes is offered as a ready-to-deploy server suite.
+Sumtimes is a full rails app.
 
 ####Requirements:
 * RVM
@@ -34,17 +36,10 @@ Change database.yml to point to your local database and config/unicorn/productio
 
 And now you can log into the site and create normal users.
 
-##Customization
-
-Currently SumTimes is set with values defaulted. To set your own values, before these are optioned off to .yml (feature coming soon),
-fork this repository, customize with your own values. Once forked you can use capistrano to deploy your project by modifying config/deploy/production.rb.examle
-
 ##Usage
 
-Users create schedules, request leaves, and can view the status of the office. At the end of the month admin generates timesheets and
-updates the current leave balances via Accruals.
-
-More complete manual coming soon.
+Users create schedules, request leaves, and can view the status of the office. Timesheets are generated as needed for each
+pay period. Accruals calculated on the fly.
 
 ##Extending
 
@@ -55,4 +50,4 @@ Fork this repository, make changes, submit a pull request.
 Copyright (c) 2013, Yakrware
 All rights reserved.
 
-Licensed under modified BSD to disallow commercial re-hosting.
+Licensed under modified BSD to disallow commercial .
