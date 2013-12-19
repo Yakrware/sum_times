@@ -8,17 +8,15 @@
 
 SumTimes is an exception-based time tracking and scheduling tool intended for small teams and businesses operating under
 flex time schedules. The intent is to build a simple, flexible way to generate timesheets for businesses that don't need
-the additional .
+a monolithic tracking implementation.
 
 ##Installation
 
 Sumtimes is a full rails app.
 
 ####Requirements:
-* RVM
-* Ruby 1.9.3 or 2.0.0
+* Ruby > 1.9.3
 * Postgresql (using postgres arrays, making this db dependent)
-* Bundler gem
 
 ####Installation:
 
@@ -26,15 +24,13 @@ Sumtimes is a full rails app.
     cd sum_times
     bundle install --deployment
 
-Change database.yml to point to your local database and config/unicorn/production.rb to indicate your server preferences then:
+Create application.yml with keys for 'RAILS_SECRET_TOKEN', 'RAILS_SECRET_KEY_BASE', 'DEVISE_SECRET_TOKEN', and 'DATABASE_NAME'
+and config/unicorn/production.rb to indicate your server preferences. Then:
 
     rake db:create db:migrate
-    rails c
-    Admin.create(email: 'admin_email@example.com', password: 'PasswordExample1')
-    exit
     unicorn -c ./config/unicorn/production.rb -E production -D
 
-And now you can log into the site and create normal users.
+Register as a new company and use the site as normal.
 
 ##Usage
 

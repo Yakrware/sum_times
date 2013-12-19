@@ -31,7 +31,9 @@ $(function(){
     initFlow();
     
     // Run google analytics
-    ga('send', 'pageview');
+    if(ga){
+      ga('send', 'pageview');
+    }
   }
   
   function initTooltips(){
