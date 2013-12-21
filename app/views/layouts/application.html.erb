@@ -9,9 +9,7 @@
 <body data-spy="scroll" data-target=".navbar-fixed-top">
   <%= yield(:main_top) if content_for?(:main_top) %>
   <div class="body-container">
-    <div class="row" style="margin: 0">
-      <%= content_for?(:main_body) ? yield(:main_body) : yield %>
-    </div>
+    <%= content_for?(:main_body) ? yield(:main_body) : yield %>
   </div>
   <div class="page-footer">
     <div class="row">

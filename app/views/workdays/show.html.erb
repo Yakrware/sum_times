@@ -17,11 +17,16 @@
       <% workdays.each do |workday| %>
         <td>
           <% unless workday.nil? %>
-            <%= l workday.date, :format => :short %> <% unless workday.recurring_days.blank? %><i class="fa fa-refresh" title="recurring"></i><% end %>
-            <br/>
+            <%= l workday.date, :format => :short %><br/>
             <%= render :partial => 'common/slider', locals: {editable: false, workday: workday, user: current_user} %>
-            <%= link_to 'edit', edit_workday_path(workday) if can?(:schedule, Workday) || !workday.recurring? %>
-            <%= link_to 'override', new_workday_path(date: workday.date) if can?(:schedule, Workday) && workday.recurring? %>
+            <% if workday.recurring? %>
+              <% if can?(:schedule, Workday) %>
+                <%= link_to '<i class="fa fa-refresh" title="Recurring. Click to override."></i>'.html_safe, new_workday_path(date: workday.date) %>
+              <% else %>
+                <i class="fa fa-refresh" title="recurring"></i>
+              <% end %>
+            <% end %>
+            <%= link_to '<i class="fa fa-edit" title="Edit this workday."></i>'.html_safe, edit_workday_path(workday) if can?(:schedule, Workday) || !workday.recurring? %>
           <% end %>
         </td>
       <% end %>
@@ -30,4 +35,4 @@
   </tbody>
 </table>
 
-<%= link_to "Create New Schedule", new_workday_path if can? :schedule, Workday %>
+<%= link_to "Create New Schedule or Workday", new_workday_path, class: 'btn btn-primary' if can? :schedule, Workday %>

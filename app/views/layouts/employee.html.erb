@@ -1,4 +1,5 @@
 <% content_for :main_body do %>
+<div class="employee-layout row">
   <div class="col-sm-2">
     <%# Render a menu of all of the neat stuff you can do with this app %>
     <% if user_signed_in? %>
@@ -16,6 +17,7 @@
   <div class="col-sm-2">
     <%= render :partial => 'layouts/user_status' %>
   </div>
+</div>
 <% end %>
 
 <%= render :template => 'layouts/application' %>

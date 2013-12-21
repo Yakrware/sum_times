@@ -26,11 +26,15 @@
   
   
   <div class="form-group">
-    <%= o.label 'value[pay_period]', 'Pay Period' %><br/>
-    <%= o.select 'value', [['Monthly (end of month)', 'monthly'], 
-                           ['Bi-monthly (15th and end)', 'bi-monthly'], 
-                           ['Bi-weekly (every other Friday)', 'bi-weekly'], 
-                           ['Weekly (Friday)', 'weekly']],
+    <%= o.label 'value[pay_period]', 'Pay Period <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="The end of pay period. Timesheets will be finalized the next day."></i>'.html_safe %><br/>
+    <%= o.select 'value', [['Monthly (end of month)', 'monthly'],
+                           ['Bi-monthly (15th and end)', 'bi-monthly'],
+                           ['Bi-weekly (every other Thursday)', 'bi-weekly-thursday'],
+                           ['Bi-weekly (every other Friday)', 'bi-weekly'],
+                           ['Bi-weekly (every other Sunday)', 'bi-weekly-sunday'],
+                           ['Weekly (Thursday)', 'weekly-thursday'],
+                           ['Weekly (Friday)', 'weekly'],
+                           ['Weekly (Sunday)', 'weekly-sunday']],
                  {selected: option.value['pay_period']}, {name: "#{model_name}[option_attributes][value][pay_period]", class: "form-control"} %>
   </div>
   
@@ -62,10 +66,14 @@
   <div class="form-group">
     <%= o.label 'value[leave_accrual_period]', 'Leave Accrual Period <i class="fa fa-question-sign" data-toggle="tooltip" data-placement="auto" data-title="At which point additional leave time becomes available to employees"></i>'.html_safe %>
     <%= o.select 'value', [['Yearly (first of year)', 'yearly'],
-                           ['Monthly (end of month)', 'monthly'], 
-                           ['Bi-monthly (15th and end)', 'bi-monthly'], 
-                           ['Bi-weekly (every other Friday)', 'bi-weekly'], 
+                           ['Monthly (end of month)', 'monthly'],
+                           ['Bi-monthly (15th and end)', 'bi-monthly'],
+                           ['Bi-weekly (every other Thursday)', 'bi-weekly-thursday'],
+                           ['Bi-weekly (every other Friday)', 'bi-weekly'],
+                           ['Bi-weekly (every other Sunday)', 'bi-weekly-sunday'],
+                           ['Weekly (Thursday)', 'weekly-thursday'],
                            ['Weekly (Friday)', 'weekly'],
+                           ['Weekly (Sunday)', 'weekly-sunday'],
                            ['Daily', 'daily']],
                  {selected: option.value['leave_accrual_period']}, {name: "#{model_name}[option_attributes][value][leave_accrual_period]", class: "form-control"} %>
   </div>

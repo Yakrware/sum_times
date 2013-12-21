@@ -33,15 +33,31 @@ class TimesheetsController < EmployeeBaseController
         @date_end = base_date.at_end_of_month
       end
     when 'bi-weekly' then
-      base_date = current_user.company.created_at.at_beginning_of_week + 4.days
-      next_friday = Time.now.at_beginning_of_week + 4.days
-      biweeks_past = ((next_friday - base_date)/2.weeks).floor + @offset
-      @date_start = (base_date + (2*biweeks_past).weeks + 1.day).to_date
-      @date_end = (base_date + (2*biweeks_past + 2).weeks).to_date
+      bi_weekly(4)
+    when 'bi-weekly-thursday' then
+      bi_weekly(3)
+    when 'bi-weekly-sunday' then
+      bi_weekly(6)
     when 'weekly' then
-      base_date = (Date.today + 2.days).at_beginning_of_week - 2.days + @offset.weeks
-      @date_start = base_date
-      @date_end = base_date + 6.days
+      weekly(2)
+    when 'weekly-thursday' then
+      weekly(3)
+    when 'weekly-sunday' then
+      weekly(0)
     end
+  end
+  
+  def bi_weekly(day_offset)
+    base_date = current_user.company.created_at.at_beginning_of_week + day_offset.days
+    next_friday = Time.now.at_beginning_of_week + day_offset.days
+    biweeks_past = ((next_friday - base_date)/2.weeks).floor + @offset
+    @date_start = (base_date + (2*biweeks_past).weeks + 1.day).to_date
+    @date_end = (base_date + (2*biweeks_past + 2).weeks).to_date
+  end
+  
+  def weekly(week_start_offset)
+    base_date = (Date.today + week_start_offset.days).at_beginning_of_week - week_start_offset.days + @offset.weeks
+    @date_start = base_date
+    @date_end = base_date + 6.days
   end
 end

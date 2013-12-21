@@ -11,24 +11,18 @@ class Workday < ActiveRecord::Base
   scope :today, -> { on_date(Date.today) }
   scope :leave, -> { where(%Q[ '{"leave", "pto", "sick", "vacation", "unpaid"}' && pluck_from_json_array(hours, 'type') ]) }
   
-  def self.workmonth(user, start)
-    start ||= Date.today
-    start = start.at_beginning_of_month
-    true_start = start.at_beginning_of_week
-    workweeks = []
-    (0..(start.at_end_of_month.week_of_month-1)).each do |wom|
-      week_start = true_start + wom.weeks
-      workdays = []
-      (-1..5).each do |dow|
-        date = week_start + dow.days
-        wd = Workday.where(user_id: user.id).on_date(date).first
-        wd.date = date unless wd.nil?
-        workdays << wd
-      end
-      workweeks << workdays
+  def self.workmonth(user, date)
+    date ||= Date.today
+    start_date = ((date.at_beginning_of_month + 1.day).at_beginning_of_week - 1.day).to_date
+    end_date = ((date.at_end_of_month + 1.day).at_end_of_week - 1.day).to_date
+    workdays = []
+    (start_date..end_date).each do |d|
+      wd = Workday.where(user_id: user.id).on_date(d).first
+      wd.date = d unless wd.nil?
+      workdays << wd
     end
     
-    workweeks
+    workdays.in_groups_of(7)
   end
   
   def hours

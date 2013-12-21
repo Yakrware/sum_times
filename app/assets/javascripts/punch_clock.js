@@ -46,6 +46,6 @@ $(function(){
   }
   
   self = new punch_controller();
-  _.defer(init);  
+  
   $(document).on('page:change', init);
 });

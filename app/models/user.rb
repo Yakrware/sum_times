@@ -49,11 +49,19 @@ class User < ActiveRecord::Base
         (Time.now.at_beginning_of_month - self.created_at) / 1.month
       when 'bi-monthly' then
         time = Time.now > Time.now.change({:day => 15}) ? Time.now.change({:day => 15}) : Time.now.at_beginning_of_month;
-        months = 2 * (time - self.created_at) / 1.month      
+        months = 2 * (time - self.created_at) / 1.month
       when 'bi-weekly' then
-        (Time.now.at_beginning_of_week + 4.days - self.created_at) / (1.week * 2)
+        (Time.now.at_beginning_of_week - 3.days - self.created_at) / (1.week * 2)
+      when 'bi-weekly-thursday' then
+        (Time.now.at_beginning_of_week - 4.days - self.created_at) / (1.week * 2)
+      when 'bi-weekly-sunday' then
+        (Time.now.at_beginning_of_week - 1.day - self.created_at) / (1.week * 2)
       when 'weekly' then
-        (Time.now.at_beginning_of_week + 4.days - self.created_at) / 1.week
+        (Time.now.at_beginning_of_week - 3.days - self.created_at) / 1.week
+      when 'weekly-thursday' then
+        (Time.now.at_beginning_of_week - 4.days - self.created_at) / 1.week
+      when 'weekly-sunday' then
+        (Time.now.at_beginning_of_week - 1.days - self.created_at) / 1.week
       when 'daily' then
         (Time.now - self.created_at) / 1.day
       end.floor

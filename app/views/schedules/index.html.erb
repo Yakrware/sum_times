@@ -1,4 +1,5 @@
 <h2>Schedule for <%= l @date, :format => :long %></h2>
+<p>Employees who are set to be scheduled by and admin will appear below.</p>
 
 <div class="row">
   <%= link_to "<< #{l @date - 1.day, :format => :long}", schedules_path(date: @date - 1.day) if @date > Date.today %>

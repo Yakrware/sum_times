@@ -6,9 +6,10 @@
 
 ##Purpose
 
-SumTimes is an exception-based time tracking and scheduling tool intended for small teams and businesses operating under
-flex time schedules. The intent is to build a simple, flexible way to generate timesheets for businesses that don't need
-a monolithic tracking implementation.
+Sumtimes is an exception-based time tracking and scheduling tool intended for small teams and businesses. 
+The intent is to build a simple, flexible way to generate timesheets for businesses that don't need
+a monolithic tracking implementation. Sumtimes is perfect for small businesses between 5 and 50 employees
+and can handle salaried and hourly employees as well as flex time and shift work.
 
 ##Installation
 
@@ -43,7 +44,7 @@ Fork this repository, make changes, submit a pull request.
 
 ---
 
-Copyright (c) 2013, Yakrware
+Copyright (c) 2013, Yakrware.
 All rights reserved.
 
-Licensed under modified BSD to disallow commercial .
+Licensed under modified BSD to disallow providing commercial services.

@@ -1,5 +1,6 @@
-<h2>New schedule</h2>
+<h2>New Scheduled Workday</h2>
 
 <%= render :partial => 'form', :locals => {workday: @workday} %>
-
-<%= link_to 'Back', show_workdays_path %>
+<p>
+<%= link_to 'Back', show_workdays_path, class: 'btn btn-danger' %>
+</p>
