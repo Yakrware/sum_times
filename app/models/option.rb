@@ -1,6 +1,6 @@
 class Option < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :company
+  belongs_to :user, :inverse_of => :option
+  belongs_to :company, :inverse_of => :option
   
   validate :user_xor_company
 

@@ -2,7 +2,7 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :accruals
   has_many :holidays
-  has_one :option, autosave: true, :dependent => :destroy
+  has_one :option, autosave: true, :dependent => :destroy, :inverse_of => :company
   
   accepts_nested_attributes_for :option
   

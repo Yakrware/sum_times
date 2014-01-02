@@ -14,7 +14,6 @@ class EmployeesController < EmployeeBaseController
   # GET /profiles/new
   # GET /profiles/new.json
   def new
-    @employee.build_option
   end
 
   # GET /profiles/1/edit
