@@ -26,6 +26,8 @@
 <% content_for :main_body do %>
   <div class="promotional-body">
     <div id="devise">
+      <%= devise_error_messages! %>
+      <%= render_flash %>
       <%= yield %>
     </div>
     <div id="about" class="flow-normal">
