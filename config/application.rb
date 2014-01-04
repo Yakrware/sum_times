@@ -42,6 +42,14 @@ module SumTimes
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
+    
+    config.action_mailer.smtp_settings = {
+      :address => 'smtp.mandrillapp.com',
+      :port => '587',
+      :user_name => ENV['MANDRILL_USERNAME'],
+      :password => ENV['MANDRILL_APIKEY'],
+      :domain => 'sumtimes.co'
+    }
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
