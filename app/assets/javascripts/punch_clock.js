@@ -26,8 +26,8 @@ $(function(){
   punch_controller.prototype.drawPunch = function(){
     // get today's workday
     $.get('/workdays/on_date/' + moment().format('YYYY-MM-DD') + '.json', function(data){
-      var punched_in = data.hours.length > 0 && _.isUndefined(_.last(data.hours)['end']),
-          hours = convert_hours(data.hours),
+      var punched_in = !_.isUndefined(data.hours) && data.hours.length > 0 && _.isUndefined(_.last(data.hours)['end']),
+          hours = convert_hours(data.hours || []),
           in_btn = $('<div class="btn btn-success btn-block punch-btn">Punch In</div>').data('direction', 'in').addClass(punched_in ? 'hide' : ''),
           out_btn = $('<div class="btn btn-success btn-block punch-btn">Punch Out</div>').data('direction', 'out').addClass(punched_in ? '' : 'hide');
       

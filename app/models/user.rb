@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   has_many :timesheets
   has_many :timesheets_to_accept, :through => :supervises, :source => :timesheets  
   belongs_to :company, autosave: true
-  has_one :option, autosave: true, :dependent => :destroy
+  has_one :option, autosave: true, :dependent => :destroy, :inverse_of => :user
   alias_method :option_original, :option
   
   accepts_nested_attributes_for :option

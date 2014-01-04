@@ -1,5 +1,6 @@
 class EmployeesController < EmployeeBaseController
-  before_filter :load_new_user, only: [:create]
+  before_filter :load_new_user, only: [:new]
+  before_filter :load_create_user, only: [:create]
   load_and_authorize_resource class: "User"
 
   def index
@@ -13,7 +14,6 @@ class EmployeesController < EmployeeBaseController
   # GET /profiles/new
   # GET /profiles/new.json
   def new
-    @employee.build_option
   end
 
   # GET /profiles/1/edit
@@ -69,6 +69,10 @@ class EmployeesController < EmployeeBaseController
   private
   
   def load_new_user
+    @employee = current_user.company.users.build
+  end 
+  
+  def load_create_user
     @employee = current_user.company.users.build user_params
   end
   
