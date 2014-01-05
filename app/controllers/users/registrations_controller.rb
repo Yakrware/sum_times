@@ -23,6 +23,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   
   protected
+  def after_sign_up_path_for(resource)
+    edit_company_path
+  end
+  
   def company_params
     params.require(:company).permit(:name)
   end

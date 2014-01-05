@@ -2,7 +2,7 @@ class DeviseBaseController < ApplicationController
   skip_before_filter :check_paid
   
   layout :choose_layout
-  
+    
   protected
   def choose_layout
     case self.controller_name
