@@ -39,6 +39,7 @@ gem 'jquery-rails'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
+gem 'sucker_punch'
 
 gem 'turbolinks'
 

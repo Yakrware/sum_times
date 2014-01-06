@@ -1,5 +1,5 @@
 class LateMailer < ActionMailer::Base
-  default from: "sumtimes@talho.org"
+  default from: "admin@sumtimes.co"
 
   def late(late)
     @late = late

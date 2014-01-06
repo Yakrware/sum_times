@@ -1,5 +1,5 @@
 class LeaveMailer < ActionMailer::Base
-  default from: "sumtimes@talho.org"
+  default from: "admin@sumtimes.co"
 
   def req(leave)
     @leave = leave

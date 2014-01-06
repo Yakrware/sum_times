@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <style>
+      .header{
+        background: #333;
+        color: #EEE;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0px 15px;
+      }
+      
+      .header .brand{
+        font-weight: bold;
+        a {
+          text-decoration:none;
+          color:#EEE;
+        }
+      }
+      
+      .body{
+        padding-top: 35px;
+        max-width: 1024px;
+        margin: 0px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header" style="background: #333;position: absolute;top: 0px;left: 0px;right: 0px;height: 30px;line-height: 30px;padding: 0px 15px;">
+      <span class="brand" style="font-weight: bold;"><%= link_to 'Sumtimes', root_url, style: 'text-decoration:none;color:#EEE;' %></span>
+    </div>
+    <div class="body" style="padding-top: 35px;max-width: 1024px;margin: 0px auto;">
+      <%= yield %>
+    </div>
+  </body>
+</html>

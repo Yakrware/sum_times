@@ -1,0 +1,5 @@
+<p>Hello, your account has been created by your company administrator on <strong>Sumtimes</strong>.</p>
+<p>Sumtimes is a time and leave tracking service that makes it easier for small businesses
+   to manage their employee's working and leave hours.</p>
+<p>Your email to use for sign-in is <strong><%= @employee.email %></strong></p>
+<p>Please <%= link_to 'set your password', edit_password_url(@employee, :reset_password_token => @token) %> and log in.</p>

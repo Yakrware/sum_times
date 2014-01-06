@@ -6,23 +6,23 @@ class EmployeesController < EmployeeBaseController
   def index
   end
 
-  # GET /profiles/1
-  # GET /profiles/1.json
+  # GET /employees/1
+  # GET /employees/1.json
   def show
   end
 
-  # GET /profiles/new
-  # GET /profiles/new.json
+  # GET /employees/new
+  # GET /employees/new.json
   def new
   end
 
-  # GET /profiles/1/edit
+  # GET /employees/1/edit
   def edit
     @employee.build_option if @employee.option.nil?
   end
 
-  # POST /profiles
-  # POST /profiles.json
+  # POST /employees
+  # POST /employees.json
   def create
     @employee.password = Devise.friendly_token
     @employee.build_option if @employee.option.nil?
@@ -30,7 +30,8 @@ class EmployeesController < EmployeeBaseController
 
     respond_to do |format|
       if @employee.save
-        format.html { redirect_to employee_path(@employee), notice: 'Profile was successfully created.' }
+        NewEmployeeJob.new.async.perform(@employee.id)
+        format.html { redirect_to employee_path(@employee), notice: 'Employee was successfully created.' }
       else
         flash[:errors] = @employee.errors.full_messages
         format.all { render "new" }
@@ -38,8 +39,8 @@ class EmployeesController < EmployeeBaseController
     end
   end
 
-  # PUT /profiles/1
-  # PUT /profiles/1.json
+  # PUT /employees/1
+  # PUT /employees/1.json
   def update
     @employee.attributes = user_params
     @employee.build_option if @employee.option.nil?
@@ -47,7 +48,7 @@ class EmployeesController < EmployeeBaseController
     
     respond_to do |format|
       if @employee.save
-        format.html { redirect_to employee_path(@employee), notice: 'Profile was successfully changed.' }
+        format.html { redirect_to employee_path(@employee), notice: 'Employee was successfully changed.' }
       else
         flash[:errors] = @employee.errors.full_messages
         format.all { render "edit" }
@@ -55,8 +56,8 @@ class EmployeesController < EmployeeBaseController
     end
   end
 
-  # DELETE /profiles/1
-  # DELETE /profiles/1.json
+  # DELETE /employees/1
+  # DELETE /employees/1.json
   def destroy
     @employee.destroy
 
